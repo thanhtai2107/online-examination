@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --color-1f2b4f--: #1f2b4f;
+  --color-bfc3d4--: #bfc3d4;
+  --color-f5f6fa--: #f5f6fa;
+  --color-cccccc--: #cccccc;
+  --color--285be6--: #285be6;
+}
+body {
+  font-family: "Poppins", sans-serif;
+}
+.main {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../public/learn.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Login page begin*/
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-f5f6fa--);
+  padding: 100px;
+  border-radius: 40px;
+  width: 75%;
+  height: 85%;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+.top button {
+  border: 2px solid var(--color-bfc3d4--);
+  width: 160px;
+  height: 55px;
+  border-radius: 55px;
+  color: var(--color-bfc3d4--);
+  font-size: 20px;
+  font-weight: 500;
+  background-color: var(--color-f5f6fa--);
+}
+.top button:hover {
+  cursor: pointer;
+}
+.form-container {
+  display: flex;
+}
+.sign-in {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-login .title {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  margin-top: 120px;
+  margin-bottom: 30px;
+}
+.form-login .title > h3 {
+  color: var(--color-1f2b4f--);
+  font-weight: 600;
+}
+.others-login h3 {
+  color: var(--color-bfc3d4--);
+  text-align: end;
+  font-weight: 600;
+}
+.others-login .social-icons {
+  display: flex;
+  margin-top: 10px;
+}
+.others-login .social-icons .icon {
+  background-color: var(--color-bfc3d4--);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0 0 6px;
+  color: white;
+}
+.form-login .input-field {
+  width: 100%;
+  height: 55px;
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 10% 90%;
+  border-radius: 40px;
+  background-color: white;
+  padding: 0 20px;
+}
+.form-login .input-field i {
+  text-align: center;
+  line-height: 55px;
+  color: var(--color-bfc3d4--);
+}
+.form-login .input-field input {
+  border: none;
+  outline: none;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 20px;
+}
+.form-container .image img {
+  width: 90%;
+  height: auto;
+  margin-top: 90px;
+}
+.form-login .forgot-submit {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.forgot-submit a {
+  color: var(--color-bfc3d4--);
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+.forgot-submit button {
+  border: none;
+  width: 160px;
+  height: 55px;
+  border-radius: 55px;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  background-color: var(--color--285be6--);
+}
+.forgot-submit button:hover {
+  cursor: pointer;
+}
+
+/* Login page end*/
