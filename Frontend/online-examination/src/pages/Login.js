@@ -6,7 +6,7 @@ function Login() {
           <div className="top">
             <div className="logo">
               <svg
-                width="230"
+                width="140"
                 height="30"
                 viewBox="0 0 268 42"
                 fill="none"

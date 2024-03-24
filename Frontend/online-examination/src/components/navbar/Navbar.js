@@ -4,7 +4,7 @@ function Navbar() {
       <div className="navbar-wrapper">
         <div className="logo">
           <svg
-            width="230"
+            width="140"
             height="30"
             viewBox="0 0 268 42"
             fill="none"
@@ -65,28 +65,29 @@ function Navbar() {
         </div>
         <div className="user">
           <div className="notifications">
-            <i class="fa-regular fa-bell"></i>
+            <i className="fa-regular fa-bell"></i>
           </div>
           <div className="user-infor">
             <i className="fa-solid fa-circle-user"></i>
             <div className="name-role">
               <div className="name">
-                <h3>Day la ten</h3>
-                <i class="fa-solid fa-caret-down"></i>
+                <h5>Day la ten</h5>
+                <i className="fa-solid fa-caret-down"></i>
               </div>
               <p>Role</p>
             </div>
             <div className="user-dropdown">
               <ul>
                 <div className="item">
-                  <i class="fa-solid fa-circle-info"></i>
+                  <i className="fa-solid fa-circle-info"></i>
                   <li>Thay đổi thông tin</li>
                 </div>
                 <div className="item">
-                  <i class="fa-solid fa-lock"></i> <li>Thay đổi mật khẩu</li>
+                  <i className="fa-solid fa-lock"></i>{" "}
+                  <li>Thay đổi mật khẩu</li>
                 </div>
                 <div className="item">
-                  <i class="fa-solid fa-right-from-bracket"></i>{" "}
+                  <i className="fa-solid fa-right-from-bracket"></i>{" "}
                   <li>Đăng xuất</li>
                 </div>
               </ul>
