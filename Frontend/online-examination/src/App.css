@@ -673,7 +673,7 @@ body {
 .add-exam .form-add {
   width: 30%;
   min-height: 65%;
-  padding: 0 70px;
+  padding: 0px 70px;
 }
 .form-add {
   background-color: var(--color--fbfbfb--);
@@ -707,6 +707,14 @@ body {
 .form-add .input-field select {
   width: 100%;
   height: 30px;
+  border: 1px solid var(--color-bfc3d4--);
+  border-radius: 20px;
+  outline: none;
+  padding: 5px 10px;
+  font-weight: 600;
+}
+.form-add .input-field textarea {
+  width: 100%;
   border: 1px solid var(--color-bfc3d4--);
   border-radius: 20px;
   outline: none;
@@ -763,7 +771,7 @@ body {
   gap: 15px;
   margin-bottom: 10px;
 }
-.update-exam-content .right .button-group button.add-question {
+.update-exam-content .right .button-group .button-add-question {
   background-color: var(--color--285be6--);
   padding: 8px;
   color: white;
@@ -811,3 +819,22 @@ body {
   font-size: 11px;
 }
 /*Update exam page end*/
+
+/*Add question begin*/
+.update-exam-wrapper .add-question {
+  position: fixed;
+  display: none;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+}
+.update-exam-wrapper .add-question form {
+  width: 35%;
+  min-height: 65%;
+  padding: 20px 70px;
+}
+/*Add question end*/

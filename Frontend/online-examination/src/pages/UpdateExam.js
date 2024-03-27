@@ -1,4 +1,10 @@
 function UpdateExam() {
+  const handlePopupAddQuestion = () => {
+    document.getElementById("add-question").style.display = "flex";
+  };
+  const handleCloseForm = () => {
+    document.getElementById("add-question").style.display = "none";
+  };
   return (
     <>
       <div className="update-exam-wrapper">
@@ -34,7 +40,10 @@ function UpdateExam() {
           </div>
           <div className="right">
             <div className="button-group">
-              <button className="add-question">
+              <button
+                className="button-add-question"
+                onClick={handlePopupAddQuestion}
+              >
                 <i class="fa-solid fa-plus"></i>
                 Thêm câu hỏi
               </button>
@@ -159,6 +168,49 @@ function UpdateExam() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="add-question" id="add-question">
+          <form action="" className="form-add">
+            <i
+              className="fa-solid fa-xmark close"
+              onClick={handleCloseForm}
+            ></i>
+            <h3>Thêm bài thi</h3>
+            <div className="input-field">
+              <label htmlFor="">Câu hỏi:</label>
+              <br />
+              <textarea rows={7}></textarea>
+            </div>
+            <div className="input-field">
+              <label htmlFor="">Đáp án 1:</label>
+              <br />
+              <input type="text" />
+            </div>
+
+            <div className="input-field">
+              <label htmlFor="">Đáp án 2:</label>
+              <br />
+              <input type="text" />
+            </div>
+            <div className="input-field">
+              <label htmlFor="">Đáp án 3:</label>
+              <br />
+              <input type="text" />
+            </div>
+            <div className="input-field">
+              <label htmlFor="">Đáp án 4:</label>
+              <br />
+              <input type="text" />
+            </div>
+            <div className="input-field">
+              <label htmlFor="">Câu trả lời:</label>
+              <br />
+              <input type="text" />
+            </div>
+            <button type="submit">
+              <i className="fa-solid fa-plus"></i> Thêm
+            </button>
+          </form>
         </div>
       </div>
     </>
