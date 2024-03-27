@@ -17,10 +17,15 @@ function TableHead({ columns, handleSorting }) {
         <tr>
           {columns.map(({ label, accessor }) => {
             return (
-              <th key={accessor} onClick={() => handleSortingChange(accessor)}>
-                <h4>{label}</h4>
-                <i className="fa-solid fa-sort"></i>
-              </th>
+              <>
+                <th
+                  key={accessor}
+                  onClick={() => handleSortingChange(accessor)}
+                >
+                  <h4>{label}</h4>
+                  <i className="fa-solid fa-sort"></i>
+                </th>
+              </>
             );
           })}
           <th></th>

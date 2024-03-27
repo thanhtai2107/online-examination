@@ -17,7 +17,7 @@ function Exam() {
         <div className="wrapper">
           <div className="exam-wrapper">
             <div className="exam-header">
-              <h3>Tên bài thi</h3>
+              <h5>Tên bài thi</h5>
               <div className="progress-bar">
                 <Flex gap="small" vertical>
                   <Progress percent={50} />
@@ -43,9 +43,9 @@ function Exam() {
                           flexDirection: "column-reverse",
                           textAlign: "end",
                         }}
-                        title="Còn lại"
                         value={deadline}
                         onFinish={onFinish}
+                        valueStyle={{ fontSize: 18 }}
                       />
                     </Col>
                   </Row>

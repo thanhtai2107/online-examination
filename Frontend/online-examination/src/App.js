@@ -5,6 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import Exam from "./pages/Exam";
 import AnotherTable from "./pages/AnotherTable";
+import AddExam from "./pages/AddExam";
+import UpdateExam from "./pages/UpdateExam";
 
 function App() {
   return (
@@ -19,6 +21,22 @@ function App() {
             </AdminLayout>
           }
           path="/table"
+        />
+        <Route
+          element={
+            <AdminLayout>
+              <UpdateExam />
+            </AdminLayout>
+          }
+          path="/update-exam"
+        />
+        <Route
+          element={
+            <AdminLayout>
+              <AddExam />
+            </AdminLayout>
+          }
+          path="/add-exam"
         />
         <Route
           element={
