@@ -3,7 +3,7 @@ function Login() {
     <>
       <div className="main">
         <div className="wrapper">
-          <div className="top">
+          <div className="login-top">
             <div className="logo">
               <svg
                 width="140"
@@ -66,7 +66,7 @@ function Login() {
 
           <div className="form-container">
             <div className="sign-in">
-              <form action="" className="form-login">
+              <form action="" className="form">
                 <div className="title">
                   <h3>Đăng nhập vào tài khoản</h3>
                   <div className="others-login">
