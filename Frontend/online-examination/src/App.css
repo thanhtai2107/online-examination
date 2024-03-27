@@ -810,6 +810,47 @@ body {
   font-weight: 600;
   font-size: 13px;
 }
+.update-exam-content .right .preview-question .question-icon {
+  display: flex;
+  gap: 20px;
+  padding-right: 10px;
+}
+.update-exam-content .right .preview-question .question-icon .icon-group {
+  display: flex;
+  gap: 5px;
+}
+.update-exam-content
+  .right
+  .preview-question
+  .question-icon
+  .icon-group
+  i:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.update-exam-content
+  .right
+  .preview-question
+  .question-icon
+  .icon-group
+  .update {
+  color: green;
+  font-size: 13px;
+}
+.update-exam-content
+  .right
+  .preview-question
+  .question-icon
+  .icon-group
+  .delete {
+  color: red;
+  font-size: 13px;
+  /* background-color: #dddddd;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px; */
+}
 .update-exam-content .right .preview-question .question-item .answers {
   display: flex;
   align-items: center;
@@ -838,3 +879,22 @@ body {
   padding: 20px 70px;
 }
 /*Add question end*/
+
+/*Update question begin*/
+.update-exam-wrapper .update-question {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: none;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+}
+.update-exam-wrapper .update-question form {
+  width: 35%;
+  min-height: 65%;
+  padding: 20px 70px;
+}
+/*Update question end*/
