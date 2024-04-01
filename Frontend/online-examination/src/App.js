@@ -1,53 +1,41 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import AdminLayout from "./layout/AdminLayout";
-import Exam from "./pages/Exam";
-import AnotherTable from "./pages/AnotherTable";
-import AddExam from "./pages/AddExam";
-import UpdateExam from "./pages/UpdateExam";
+import { route } from "./utils/route";
+import { Fragment } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
+      <ToastContainer />
       <Routes>
-        <Route index element={<Login />} />
-        <Route element={<Exam />} path="/exam" />
-        <Route
-          element={
-            <AdminLayout>
-              <AnotherTable />
-            </AdminLayout>
+        {route.map((route, index) => {
+          let Layout = Fragment;
+          if (route.layout != null) {
+            Layout = route.layout;
           }
-          path="/table"
-        />
-        <Route
-          element={
-            <AdminLayout>
-              <UpdateExam />
-            </AdminLayout>
+          let PrivateRoute = Fragment;
+          if (route.private != null) {
+            PrivateRoute = route.private;
           }
-          path="/update-exam"
-        />
-        <Route
-          element={
-            <AdminLayout>
-              <AddExam />
-            </AdminLayout>
-          }
-          path="/add-exam"
-        />
-        <Route
-          element={
-            <AdminLayout>
-              <Dashboard />
-            </AdminLayout>
-          }
-          path="/dashboard"
-        />
+          const Page = route.component;
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <PrivateRoute>
+                  <Layout>
+                    <Page />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+          );
+        })}
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

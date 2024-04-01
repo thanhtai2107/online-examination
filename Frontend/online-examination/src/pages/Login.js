@@ -1,4 +1,31 @@
+import { useEffect, useState } from "react";
+import authService from "../service/authService";
+import { useDispatch, useSelector } from "react-redux";
+import { store } from "../redux/store";
+import { login } from "../redux/auth/Action";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = useSelector((store) => store.auth);
+  console.log(auth);
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    data.append("email", email);
+    data.append("password", password);
+    dispatch(login(data));
+  };
+  useEffect(() => {
+    if (auth?.signin?.userDTO?.role === "ADMIN") {
+      navigate("/dashboard");
+    }
+  }, [auth?.signin]);
   return (
     <>
       <div className="main">
@@ -30,9 +57,9 @@ function Login() {
                     width="266.658"
                     height="40.36"
                     filterUnits="userSpaceOnUse"
-                    color-interpolation-filters="sRGB"
+                    colorInterpolationFilters="sRGB"
                   >
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix
                       in="SourceAlpha"
                       type="matrix"
@@ -66,19 +93,19 @@ function Login() {
 
           <div className="form-container">
             <div className="sign-in">
-              <form action="" className="form">
+              <form action="" className="form" onSubmit={handleLogin}>
                 <div className="title">
                   <h3>Đăng nhập vào tài khoản</h3>
                   <div className="others-login">
                     <h3>Đăng nhập với</h3>
                     <div className="social-icons">
-                      <a href="#" className="icon">
+                      <a href="##" className="icon">
                         <i className="fa-brands fa-facebook-f"></i>
                       </a>
-                      <a href="#" className="icon">
+                      <a href="###" className="icon">
                         <i className="fa-brands fa-google"></i>
                       </a>
-                      <a href="#" className="icon">
+                      <a href="###" className="icon">
                         <i className="fa-brands fa-linkedin-in"></i>
                       </a>
                     </div>
@@ -86,14 +113,24 @@ function Login() {
                 </div>
                 <div className="input-field">
                   <i className="fa-solid fa-user"></i>
-                  <input type="text" placeholder="Địa chỉ email" />
+                  <input
+                    type="text"
+                    placeholder="Địa chỉ email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
                 <div className="input-field">
                   <i className="fa-solid fa-lock"></i>
-                  <input type="password" placeholder="Mật khẩu" />
+                  <input
+                    type="password"
+                    placeholder="Mật khẩu"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
                 <div className="forgot-submit">
-                  <a href="#">Quên mật khẩu?</a>
+                  <a href="##">Quên mật khẩu?</a>
                   <button type="submit">Đăng nhập</button>
                 </div>
               </form>
