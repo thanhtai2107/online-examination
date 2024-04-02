@@ -2,6 +2,7 @@ import AdminLayout from "../layout/AdminLayout";
 import AnotherTable from "../pages/AnotherTable";
 import Dashboard from "../pages/Dashboard";
 import Exam from "../pages/Exam";
+import ListCourse from "../pages/ListCourse";
 import Login from "../pages/Login";
 import { PrivateRoute } from "./PrivateRoute";
 
@@ -17,6 +18,12 @@ export const route = [
     path: "/exam",
     component: Exam,
     layout: null,
+    private: PrivateRoute,
+  },
+  {
+    path: "/courses",
+    component: ListCourse,
+    layout: AdminLayout,
     private: PrivateRoute,
   },
   {
