@@ -1,4 +1,4 @@
-function TableBody({ tableData, columns }) {
+function TableBody({ tableData, columns, handleUpdate, handleDelete }) {
   return (
     <>
       <tbody>
@@ -11,8 +11,12 @@ function TableBody({ tableData, columns }) {
                   return <td key={accessor}>{tData}</td>;
                 })}
                 <td className="button-group">
-                  <button className="button-update">Cập nhật</button>
-                  <button className="button-delete">Xóa</button>
+                  <button onClick={handleUpdate} className="button-update">
+                    Cập nhật
+                  </button>
+                  <button onClick={handleDelete} className="button-delete">
+                    Xóa
+                  </button>
                 </td>
               </tr>
             </>
