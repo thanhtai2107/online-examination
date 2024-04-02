@@ -2,7 +2,7 @@ import { Pagination } from "antd";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import { useSortableTable } from "./useSortableTable";
-function Table({ caption, columns, data }) {
+function Table({ caption, columns, data, handleUpdate, handleDelete }) {
   const [tableData, handleSorting] = useSortableTable(data);
   return (
     <>
@@ -10,7 +10,12 @@ function Table({ caption, columns, data }) {
         <table className="table">
           <caption>{caption}</caption>
           <TableHead columns={columns} handleSorting={handleSorting} />
-          <TableBody columns={columns} tableData={tableData} />
+          <TableBody
+            columns={columns}
+            tableData={tableData}
+            handleUpdate={handleUpdate}
+            handleDelete={handleDelete}
+          />
         </table>
         <div className="pagination">
           <Pagination

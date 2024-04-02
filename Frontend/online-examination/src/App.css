@@ -943,3 +943,25 @@ body {
   padding: 0px 70px;
 }
 /* Add course end*/
+
+/* Update course begin*/
+.update-course {
+  display: none;
+}
+.update-course {
+  position: fixed;
+  display: none;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+}
+.update-course form {
+  width: 35%;
+  min-height: 65%;
+  padding: 20px 70px;
+}
+/* Update course end*/

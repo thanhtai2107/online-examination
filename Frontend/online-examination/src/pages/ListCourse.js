@@ -22,6 +22,12 @@ function ListCourse() {
   const handleCloseForm = () => {
     document.getElementById("add-course").style.display = "none";
   };
+  const handlePopupUpdateCourseForm = () => {
+    document.getElementById("update-course").style.display = "flex";
+  };
+  const handleCloseUpdateCourseForm = () => {
+    document.getElementById("update-course").style.display = "none";
+  };
   return (
     <>
       <div className="list-courses-wrapper">
@@ -31,7 +37,11 @@ function ListCourse() {
             <i className="fa-solid fa-plus"></i>Thêm khóa học
           </button>
         </div>
-        <Table columns={columns} data={data} />
+        <Table
+          columns={columns}
+          data={data}
+          handleUpdate={handlePopupUpdateCourseForm}
+        />
         <div className="add-course" id="add-course">
           <form action="" className="form-add">
             <i
@@ -57,6 +67,45 @@ function ListCourse() {
             </div>
 
             <button type="submit">Thêm</button>
+          </form>
+        </div>
+        <div className="update-course" id="update-course">
+          <form action="" className="form-add">
+            <i
+              className="fa-solid fa-xmark close"
+              onClick={handleCloseUpdateCourseForm}
+            ></i>
+            <h3>Cập nhật khóa học</h3>
+            <div className="input-field">
+              <label htmlFor="">Tên khóa học:</label>
+              <br />
+              <input type="text" />
+            </div>
+            <div className="input-field">
+              <label htmlFor="">Giáo viên:</label>
+              <br />
+              <select>
+                <option selected disabled>
+                  --Giáo viên--
+                </option>
+                <option>Nguyễn Văn A</option>
+                <option>Nguyễn Vắn B</option>
+              </select>
+            </div>
+            <div className="input-field">
+              <label htmlFor="">Trạng thái:</label>
+              <br />
+              <select>
+                <option selected disabled>
+                  --Trạng thái--
+                </option>
+                <option>Đang diễn ra</option>
+                <option>Đã hoàn thành</option>
+              </select>
+            </div>
+            <button type="submit">
+              <i className="fa-solid fa-plus"></i> Thêm
+            </button>
           </form>
         </div>
       </div>
