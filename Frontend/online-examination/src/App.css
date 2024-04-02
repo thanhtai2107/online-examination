@@ -898,3 +898,48 @@ body {
   padding: 20px 70px;
 }
 /*Update question end*/
+
+/* List course begin*/
+.list-courses-wrapper .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.list-courses-wrapper .top button {
+  background-color: var(--color--285be6--);
+  padding: 8px;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+}
+.list-courses-wrapper .top button:hover {
+  opacity: 0.9;
+}
+.list-courses-wrapper .top button i {
+  margin-right: 3px;
+}
+/* List course end*/
+
+/* Add course begin*/
+.add-course {
+  display: none;
+}
+.add-course {
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.add-course .form-add {
+  width: 30%;
+  min-height: 65%;
+  padding: 0px 70px;
+}
+/* Add course end*/

@@ -10,7 +10,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = useSelector((store) => store.auth);
-  console.log(auth);
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
   const navigate = useNavigate();

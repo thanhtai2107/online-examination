@@ -22,7 +22,7 @@ function AnotherTable() {
         <div className="top">
           <h3>Danh sách bài thi</h3>
           <button onClick={handlePopupForm}>
-            <i class="fa-solid fa-plus"></i>Thêm bài thi
+            <i className="fa-solid fa-plus"></i>Thêm bài thi
           </button>
         </div>
         <Table

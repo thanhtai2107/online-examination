@@ -9,7 +9,6 @@ export const login = (data) => async (dispatch) => {
     const jwt = response.data.token;
     localStorage.setItem("jwt", jwt);
     dispatch({ type: LOGIN, payload: response.data });
-    console.log(response.data);
     toast.success("Đăng nhập thành công");
   } catch (err) {
     toast.error("Đăng nhập thất bại");
