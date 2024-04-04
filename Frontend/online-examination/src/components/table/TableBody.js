@@ -6,9 +6,9 @@ function TableBody({ tableData, columns, handleUpdate, handleDelete }) {
           return (
             <>
               <tr key={data.id}>
-                {columns.map(({ accessor }) => {
+                {columns.map(({ accessor }, index) => {
                   const tData = data[accessor] ? data[accessor] : "---";
-                  return <td key={accessor}>{tData}</td>;
+                  return <td key={index}>{tData}</td>;
                 })}
                 <td className="button-group">
                   <button onClick={handleUpdate} className="button-update">

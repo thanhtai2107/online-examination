@@ -28,6 +28,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+.error {
+  font-size: 10px;
+  color: red;
+  font-weight: 600;
+}
 /* Table begin */
 .table {
   width: 100%;
@@ -940,7 +945,7 @@ body {
 .add-course .form-add {
   width: 30%;
   min-height: 65%;
-  padding: 0px 70px;
+  padding: 20px 70px;
 }
 /* Add course end*/
 

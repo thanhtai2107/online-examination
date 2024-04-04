@@ -13,7 +13,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import request.AdminRegisterReq;
+import com.example.examination.request.AdminRegisterReq;
+
+import java.util.Date;
 
 @Service
 public class AuthenticationService {
@@ -40,6 +42,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(req.password()))
                 .status(1)
                 .role(Role.ADMIN)
+                .dateCreated(new Date())
                 .build();
         UserEntity userSaved = userRepository.save(user);
         var adminEntity = AdminEntity.builder()

@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -25,8 +26,11 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private int status;
+    private Date dateCreated;
     @OneToOne(mappedBy = "user")
     private AdminEntity adminEntity;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private TeacherEntity teacherEntity;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

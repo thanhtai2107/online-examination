@@ -1,15 +1,18 @@
 package com.example.examination.config;
 
+import com.example.examination.enums.Role;
 import com.example.examination.jwt.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.security.Permission;
 
 @EnableWebSecurity
 @Configuration
@@ -29,8 +32,10 @@ public class WebSecurityConfig {
                     request.requestMatchers("/api/v1/register",
                             "/api/v1/login"
                     ).permitAll();
+                    request.requestMatchers("/api/v1/teacher/add").hasAuthority("ADMIN");
                     request.anyRequest().authenticated();
                 })
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

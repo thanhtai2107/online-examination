@@ -1,6 +1,31 @@
+import { useState } from "react";
 import Table from "../components/table/Table";
+import validation from "../service/validation";
+import { useDispatch } from "react-redux";
+import { addTeacher } from "../redux/teacher/Action";
 
 function ListTeacher() {
+  const dispatch = useDispatch();
+  const [inputData, setInputData] = useState({
+    fullname: "",
+    email: "",
+    dateOfBirth: "",
+    gender: "",
+  });
+  const [errors, setErrors] = useState({});
+  const handleChange = (e) => {
+    setInputData({ ...inputData, [e.target.name]: e.target.value });
+  };
+  const handleSubmitAddTeacher = (e) => {
+    e.preventDefault();
+    const error = validation(inputData);
+    setErrors(error);
+    console.log(error);
+    if (Object.keys(error).length === 0) {
+      dispatch(addTeacher(inputData));
+      handleCloseAddTeacherForm();
+    }
+  };
   const columns = [
     { label: "Tên giáo viên", accessor: "teacher_name" },
     { label: "Email", accessor: "email" },
@@ -47,7 +72,11 @@ function ListTeacher() {
           handleUpdate={handlePopupUpdateTeacherForm}
         />
         <div className="add-course" id="add-teacher">
-          <form action="" className="form-add">
+          <form
+            action=""
+            className="form-add"
+            onSubmit={handleSubmitAddTeacher}
+          >
             <i
               className="fa-solid fa-xmark close"
               onClick={handleCloseAddTeacherForm}
@@ -56,28 +85,53 @@ function ListTeacher() {
             <div className="input-field">
               <label htmlFor="">Tên giáo viên:</label>
               <br />
-              <input type="text" />
+              <input
+                type="text"
+                value={inputData.teacher_name}
+                name="fullname"
+                onChange={(e) => handleChange(e)}
+              />
+              {errors.fullname && (
+                <span className="error">{errors.fullname}</span>
+              )}
             </div>
             <div className="input-field">
               <label htmlFor="">Email:</label>
               <br />
-              <input type="email" />
+              <input
+                type="email"
+                onChange={(e) => handleChange(e)}
+                value={inputData.email}
+                name="email"
+              />
+              {errors.email && <span className="error">{errors.email}</span>}
             </div>
             <div className="input-field">
               <label htmlFor="">Ngày sinh:</label>
               <br />
-              <input type="date" />
+              <input
+                type="date"
+                onChange={(e) => handleChange(e)}
+                value={inputData.dateOfBirth}
+                name="dateOfBirth"
+              />
+              {errors.dateOfBirth && (
+                <span className="error">{errors.dateOfBirth}</span>
+              )}
             </div>
             <div className="input-field">
               <label htmlFor="">Giới tính:</label>
               <br />
-              <select>
-                <option selected disabled>
-                  --Giới tính--
-                </option>
-                <option>Nam</option>
-                <option>Nữ</option>
+              <select
+                onChange={(e) => handleChange(e)}
+                name="gender"
+                defaultValue="--Giới tính--"
+              >
+                <option disabled>--Giới tính--</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
               </select>
+              {errors.gender && <span className="error">{errors.gender}</span>}
             </div>
 
             <button type="submit">Thêm</button>
@@ -109,9 +163,7 @@ function ListTeacher() {
               <label htmlFor="">Giới tính:</label>
               <br />
               <select>
-                <option selected disabled>
-                  --Giới tính--
-                </option>
+                <option>--Giới tính--</option>
                 <option>Nam</option>
                 <option>Nữ</option>
               </select>
@@ -120,9 +172,7 @@ function ListTeacher() {
               <label htmlFor="">Trạng thái:</label>
               <br />
               <select>
-                <option selected disabled>
-                  --Trạng thái--
-                </option>
+                <option>--Trạng thái--</option>
                 <option>Hoạt động</option>
                 <option>Ngưng hoạt động</option>
               </select>

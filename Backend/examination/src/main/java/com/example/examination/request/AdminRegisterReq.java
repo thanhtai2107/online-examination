@@ -1,4 +1,4 @@
-package request;
+package com.example.examination.request;
 
 import java.util.Date;
 
