@@ -6,7 +6,7 @@ import com.example.examination.response.AuthenticationResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import request.AdminRegisterReq;
+import com.example.examination.request.AdminRegisterReq;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
