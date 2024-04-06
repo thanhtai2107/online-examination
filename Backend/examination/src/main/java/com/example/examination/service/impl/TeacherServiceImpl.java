@@ -10,10 +10,13 @@ import com.example.examination.request.AddTeacherReq;
 import com.example.examination.respository.TeacherRepository;
 import com.example.examination.respository.UserRepository;
 import com.example.examination.service.ITeacherService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
+import java.util.function.Function;
 
 @Service
 public class TeacherServiceImpl implements ITeacherService {
@@ -30,7 +33,7 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
-    public TeacherDTO addTeacher(AddTeacherReq req) throws UserException{
+    public TeacherDTO addTeacher(AddTeacherReq req) throws UserException {
         if (userRepository.findUserEntityByEmail(req.getEmail()).isPresent()) throw new UserException("Exist user");
         UserEntity userEntity = UserEntity.builder()
                 .email(req.getEmail())
@@ -46,5 +49,17 @@ public class TeacherServiceImpl implements ITeacherService {
                 .dateOfBirth(req.getDateOfBirth())
                 .user(userSaved).build());
         return teacherDTOMapper.apply(teacher);
+    }
+
+    @Override
+    public Page<TeacherDTO> getTeachers(int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<TeacherEntity> teacherEntities = teacherRepository.findAll(pageable);
+        return teacherEntities.map(new Function<TeacherEntity, TeacherDTO>() {
+            @Override
+            public TeacherDTO apply(TeacherEntity teacherEntity) {
+                return teacherDTOMapper.apply(teacherEntity);
+            }
+        });
     }
 }

@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                     request.requestMatchers("/api/v1/register",
                             "/api/v1/login"
                     ).permitAll();
-                    request.requestMatchers("/api/v1/teacher/add").hasAuthority("ADMIN");
+                    request.requestMatchers("/api/v1/teacher/add","api/v1/teachers").hasAuthority("ADMIN");
                     request.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

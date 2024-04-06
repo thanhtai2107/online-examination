@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export const useSortableTable = (data) => {
   const [tableData, setTableData] = useState(data);
+  console.log(data);
   const handleSorting = (sortField, sortOrder) => {
     if (sortField) {
       const dataSorted = [...tableData].sort((a, b) => {
