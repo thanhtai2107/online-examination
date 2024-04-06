@@ -15,17 +15,16 @@ function TableHead({ columns, handleSorting }) {
     <>
       <thead>
         <tr>
-          {columns.map(({ label, accessor }) => {
+          {columns.map(({ label, accessor, width }) => {
             return (
-              <>
-                <th
-                  key={accessor}
-                  onClick={() => handleSortingChange(accessor)}
-                >
-                  <h4>{label}</h4>
-                  <i className="fa-solid fa-sort"></i>
-                </th>
-              </>
+              <th
+                style={{ width: width }}
+                key={accessor}
+                onClick={() => handleSortingChange(accessor)}
+              >
+                <h4>{label}</h4>
+                <i className="fa-solid fa-sort"></i>
+              </th>
             );
           })}
           <th></th>
