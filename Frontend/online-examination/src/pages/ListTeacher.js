@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import validation from "../service/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeacher, getTeachers } from "../redux/teacher/Action";
-import { Pagination, Table, Tag, Space } from "antd";
-import { useLocation } from "react-router-dom";
+import {
+  addTeacher,
+  getTeacher,
+  getTeachers,
+  updateTeacher,
+} from "../redux/teacher/Action";
+import { Pagination, Table, Space } from "antd";
 
 function ListTeacher() {
-  const location = useLocation();
   const teacher = useSelector((store) => store.teacher);
-  // console.log(teacher.teachers?.content);
   const dispatch = useDispatch();
-  const query = new URLSearchParams(location.search);
   const [currentPage, setCurrentPage] = useState(1);
   const [inputData, setInputData] = useState({
     fullname: "",
@@ -18,19 +19,41 @@ function ListTeacher() {
     dateOfBirth: "",
     gender: "",
   });
-  const { Column, ColumnGroup } = Table;
+  const [updateData, setUpdateData] = useState({
+    id: "",
+    fullname: "",
+    email: "",
+    dateOfBirth: "",
+    gender: "",
+    status: "",
+  });
+  const { Column } = Table;
 
-  const [errors, setErrors] = useState({});
+  const [addTeacherErrors, setAddTeacherErrors] = useState({});
+  const [updateTeacherErrors, setUpdateTeacherErrors] = useState({});
   const handleChange = (e) => {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
+  };
+  const handleChangeUpdate = (e) => {
+    setUpdateData({ ...updateData, [e.target.name]: e.target.value });
   };
   const handleSubmitAddTeacher = (e) => {
     e.preventDefault();
     const error = validation(inputData);
-    setErrors(error);
+    setAddTeacherErrors(error);
     if (Object.keys(error).length === 0) {
       dispatch(addTeacher(inputData));
       handleCloseAddTeacherForm();
+    }
+  };
+  const handleSubmitUpdateTeacher = (e) => {
+    e.preventDefault();
+    const error = validation(updateData);
+    setUpdateTeacherErrors(error);
+    if (Object.keys(error).length === 0) {
+      dispatch(updateTeacher(updateData));
+      console.log("update data", updateData);
+      handleCloseUpdateTeacherForm();
     }
   };
   const handlePopupAddTeachForm = () => {
@@ -39,14 +62,14 @@ function ListTeacher() {
   const handleCloseAddTeacherForm = () => {
     document.getElementById("add-teacher").style.display = "none";
   };
-  const handlePopupUpdateTeacherForm = () => {
+  const handlePopupUpdateTeacherForm = (id) => {
     document.getElementById("update-teacher").style.display = "flex";
+    dispatch(getTeacher(id));
   };
   const handleCloseUpdateTeacherForm = () => {
     document.getElementById("update-teacher").style.display = "none";
   };
   const handlePageChange = (current) => {
-    console.log(current);
     setCurrentPage(current);
   };
   useEffect(() => {
@@ -55,7 +78,19 @@ function ListTeacher() {
       size: 5,
     };
     dispatch(getTeachers(data));
-  }, [dispatch, currentPage]);
+  }, [dispatch, currentPage, teacher.update]);
+  useEffect(() => {
+    setUpdateData({
+      id: teacher.teacher?.id,
+      fullname: teacher.teacher?.fullname,
+      email: teacher.teacher?.email,
+      dateOfBirth: new Date(teacher.teacher?.dateOfBirth).toLocaleDateString(
+        "en-CA"
+      ),
+      gender: teacher.teacher?.gender,
+      status: teacher.teacher?.status === "Hoạt động" ? 1 : 0,
+    });
+  }, [teacher.teacher]);
   if (teacher.teachers?.content) {
     return (
       <>
@@ -108,7 +143,9 @@ function ListTeacher() {
               key="action"
               render={(_, record) => (
                 <Space size="middle">
-                  <a onClick={handlePopupUpdateTeacherForm}>Cập nhật</a>
+                  <a onClick={() => handlePopupUpdateTeacherForm(record.id)}>
+                    Cập nhật
+                  </a>
                   <a>Xóa</a>
                 </Space>
               )}
@@ -144,8 +181,8 @@ function ListTeacher() {
                   name="fullname"
                   onChange={(e) => handleChange(e)}
                 />
-                {errors.fullname && (
-                  <span className="error">{errors.fullname}</span>
+                {addTeacherErrors.fullname && (
+                  <span className="error">{addTeacherErrors.fullname}</span>
                 )}
               </div>
               <div className="input-field">
@@ -157,7 +194,9 @@ function ListTeacher() {
                   value={inputData.email}
                   name="email"
                 />
-                {errors.email && <span className="error">{errors.email}</span>}
+                {addTeacherErrors.email && (
+                  <span className="error">{addTeacherErrors.email}</span>
+                )}
               </div>
               <div className="input-field">
                 <label htmlFor="">Ngày sinh:</label>
@@ -168,8 +207,8 @@ function ListTeacher() {
                   value={inputData.dateOfBirth}
                   name="dateOfBirth"
                 />
-                {errors.dateOfBirth && (
-                  <span className="error">{errors.dateOfBirth}</span>
+                {addTeacherErrors.dateOfBirth && (
+                  <span className="error">{addTeacherErrors.dateOfBirth}</span>
                 )}
               </div>
               <div className="input-field">
@@ -184,8 +223,8 @@ function ListTeacher() {
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
                 </select>
-                {errors.gender && (
-                  <span className="error">{errors.gender}</span>
+                {addTeacherErrors.gender && (
+                  <span className="error">{addTeacherErrors.gender}</span>
                 )}
               </div>
 
@@ -193,7 +232,11 @@ function ListTeacher() {
             </form>
           </div>
           <div className="update-course" id="update-teacher">
-            <form action="" className="form-add">
+            <form
+              action=""
+              className="form-add"
+              onSubmit={handleSubmitUpdateTeacher}
+            >
               <i
                 className="fa-solid fa-xmark close"
                 onClick={handleCloseUpdateTeacherForm}
@@ -202,35 +245,76 @@ function ListTeacher() {
               <div className="input-field">
                 <label htmlFor="">Tên giáo viên:</label>
                 <br />
-                <input type="text" />
+                <input
+                  type="text"
+                  name="fullname"
+                  value={updateData.fullname}
+                  onChange={(e) => handleChangeUpdate(e)}
+                />
+                {updateTeacherErrors.fullname && (
+                  <span className="error">{updateTeacherErrors.fullname}</span>
+                )}
               </div>
               <div className="input-field">
                 <label htmlFor="">Email:</label>
                 <br />
-                <input type="email" />
+                <input
+                  type="email"
+                  readOnly
+                  name="email"
+                  onChange={(e) => handleChangeUpdate(e)}
+                  value={updateData.email}
+                />
               </div>
               <div className="input-field">
                 <label htmlFor="">Ngày sinh:</label>
                 <br />
-                <input type="date" />
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  onChange={(e) => handleChangeUpdate(e)}
+                  value={updateData.dateOfBirth}
+                />
+                {updateTeacherErrors.dateOfBirth && (
+                  <span className="error">
+                    {updateTeacherErrors.dateOfBirth}
+                  </span>
+                )}
               </div>
               <div className="input-field">
                 <label htmlFor="">Giới tính:</label>
                 <br />
-                <select>
+                <select
+                  value={updateData.gender}
+                  onChange={(e) => handleChangeUpdate(e)}
+                  name="gender"
+                >
                   <option>--Giới tính--</option>
                   <option>Nam</option>
                   <option>Nữ</option>
                 </select>
+                {updateTeacherErrors.gender && (
+                  <span className="error">{updateTeacherErrors.gender}</span>
+                )}
               </div>
               <div className="input-field">
                 <label htmlFor="">Trạng thái:</label>
                 <br />
-                <select>
+
+                <select
+                  value={
+                    updateData.status === 1 ? "Ngưng hoạt động" : "Hoạt động"
+                  }
+                  onChange={(e) => handleChangeUpdate(e)}
+                  name="status"
+                >
                   <option>--Trạng thái--</option>
                   <option>Hoạt động</option>
                   <option>Ngưng hoạt động</option>
                 </select>
+                {updateTeacherErrors.status && (
+                  <span className="error">{updateTeacherErrors.status}</span>
+                )}
               </div>
               <button type="submit">
                 <i className="fa-solid fa-plus"></i> Thêm
