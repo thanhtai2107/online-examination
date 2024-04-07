@@ -40,4 +40,8 @@ public class TeacherController {
     public ResponseEntity<TeacherDTO> updateTeacher(@RequestBody @Valid UpdateTeacherReq req) throws TeacherException, UserException {
         return ResponseEntity.ok(teacherService.updateTeacher(req));
     }
+    @DeleteMapping("/teacher")
+    public ResponseEntity<?> deleteTeacher(@RequestParam Long id) throws UserException {
+        return ResponseEntity.ok(teacherService.deleteTeacher(id));
+    }
 }

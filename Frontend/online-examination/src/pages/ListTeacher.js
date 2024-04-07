@@ -3,6 +3,7 @@ import validation from "../service/validation";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTeacher,
+  deleteTeacher,
   getTeacher,
   getTeachers,
   updateTeacher,
@@ -56,6 +57,9 @@ function ListTeacher() {
       handleCloseUpdateTeacherForm();
     }
   };
+  const handleDeleteTeacher = (id) => {
+    dispatch(deleteTeacher(id));
+  };
   const handlePopupAddTeachForm = () => {
     document.getElementById("add-teacher").style.display = "flex";
   };
@@ -78,7 +82,7 @@ function ListTeacher() {
       size: 5,
     };
     dispatch(getTeachers(data));
-  }, [dispatch, currentPage, teacher.update]);
+  }, [dispatch, currentPage, teacher.update, teacher.delete]);
   useEffect(() => {
     setUpdateData({
       id: teacher.teacher?.id,
@@ -146,7 +150,7 @@ function ListTeacher() {
                   <a onClick={() => handlePopupUpdateTeacherForm(record.id)}>
                     Cập nhật
                   </a>
-                  <a>Xóa</a>
+                  <a onClick={() => handleDeleteTeacher(record.id)}>Xóa</a>
                 </Space>
               )}
             />
