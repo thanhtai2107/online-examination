@@ -1,8 +1,10 @@
 package com.example.examination.controller;
 
 import com.example.examination.dto.TeacherDTO;
+import com.example.examination.exception.TeacherException;
 import com.example.examination.exception.UserException;
 import com.example.examination.request.AddTeacherReq;
+import com.example.examination.request.UpdateTeacherReq;
 import com.example.examination.service.impl.TeacherServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -27,7 +29,15 @@ public class TeacherController {
 
     @GetMapping("/teachers")
     public ResponseEntity<Page<TeacherDTO>> getTeachers(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "7") int size) {
+                                                        @RequestParam(defaultValue = "5") int size) {
         return ResponseEntity.ok(teacherService.getTeachers(page, size));
+    }
+    @GetMapping("/teacher")
+    public ResponseEntity<TeacherDTO> getTeacher(@RequestParam long id) throws TeacherException {
+        return ResponseEntity.ok(teacherService.getTeacherById(id));
+    }
+    @PutMapping("/teacher/update")
+    public ResponseEntity<TeacherDTO> updateTeacher(@RequestBody @Valid UpdateTeacherReq req) throws TeacherException, UserException {
+        return ResponseEntity.ok(teacherService.updateTeacher(req));
     }
 }

@@ -26,6 +26,9 @@ export default function validation(values) {
   if (Object.keys(values).includes("gender") && values.gender === "") {
     errors.gender = "Vui lòng chọn giới tính";
   }
+  if (Object.keys(values).includes("status") && values.status === "") {
+    errors.gender = "Vui lòng chọn trạng thái";
+  }
   if (
     Object.keys(values).includes("dateOfBirth") &&
     values.dateOfBirth === ""
