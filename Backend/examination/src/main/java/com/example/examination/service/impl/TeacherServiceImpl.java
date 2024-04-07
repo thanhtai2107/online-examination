@@ -90,4 +90,12 @@ public class TeacherServiceImpl implements ITeacherService {
         return new TeacherDTO(id, userEntity.getEmail(), teacherEntity.getFullname(), teacherEntity.getGender(), teacherEntity.getDateOfBirth(),
                 userEntity.getDateCreated(),userEntity.getRole(), userEntity.getStatus());
     }
+
+    @Override
+    public String deleteTeacher(Long id) throws UserException {
+        if (userRepository.findUserEntityByTeacherEntity_Id(id) == null) throw new UserException("User not found");
+        UserEntity userEntity = userRepository.findUserEntityByTeacherEntity_Id(id);
+        userRepository.delete(userEntity);
+        return "Delete teacher with id: " + id;
+    }
 }

@@ -15,4 +15,5 @@ public interface ITeacherService {
     Page<TeacherDTO> getTeachers(int page, int size);
     TeacherDTO updateTeacher(UpdateTeacherReq req) throws TeacherException, UserException;
     TeacherDTO getTeacherById(long id) throws TeacherException;
+    String deleteTeacher(Long id) throws UserException;
 }
