@@ -27,7 +27,13 @@ export default function validation(values) {
     errors.gender = "Vui lòng chọn giới tính";
   }
   if (Object.keys(values).includes("status") && values.status === "") {
-    errors.gender = "Vui lòng chọn trạng thái";
+    errors.status = "Vui lòng chọn trạng thái";
+  }
+  if (Object.keys(values).includes("title") && values.title === "") {
+    errors.title = "Vui lòng nhập tên khóa học";
+  }
+  if (Object.keys(values).includes("teacherId") && values.teacherId === "") {
+    errors.teacherId = "Vui lòng chọn giáo viên";
   }
   if (
     Object.keys(values).includes("dateOfBirth") &&

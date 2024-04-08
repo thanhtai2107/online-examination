@@ -34,7 +34,9 @@ public class WebSecurityConfig {
                     ).permitAll();
                     request.requestMatchers("/api/v1/teacher/add",
                             "api/v1/teachers",
-                            "api/v1/teacher").hasAuthority("ADMIN");
+                            "api/v1/teacher",
+                            "api/v1/course/**"
+                    ).hasAuthority("ADMIN");
                     request.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("api/v1")
@@ -31,6 +33,10 @@ public class TeacherController {
     public ResponseEntity<Page<TeacherDTO>> getTeachers(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "5") int size) {
         return ResponseEntity.ok(teacherService.getTeachers(page, size));
+    }
+    @GetMapping("/teacher/all")
+    public ResponseEntity<List<TeacherDTO>> getTeachers() {
+        return ResponseEntity.ok(teacherService.listTeacher());
     }
     @GetMapping("/teacher")
     public ResponseEntity<TeacherDTO> getTeacher(@RequestParam long id) throws TeacherException {

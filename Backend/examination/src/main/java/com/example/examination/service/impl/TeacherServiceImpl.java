@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -97,5 +98,16 @@ public class TeacherServiceImpl implements ITeacherService {
         UserEntity userEntity = userRepository.findUserEntityByTeacherEntity_Id(id);
         userRepository.delete(userEntity);
         return "Delete teacher with id: " + id;
+    }
+
+    @Override
+    public List<TeacherDTO> listTeacher() {
+        List<TeacherEntity> teacherEntities = teacherRepository.findAll();
+        return teacherEntities.stream().map(new Function<TeacherEntity, TeacherDTO>() {
+            @Override
+            public TeacherDTO apply(TeacherEntity teacherEntity) {
+                return teacherDTOMapper.apply(teacherEntity);
+            }
+        }).toList();
     }
 }
