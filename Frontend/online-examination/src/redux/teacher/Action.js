@@ -41,7 +41,6 @@ export const getAllTeacher = () => async (dispatch) => {
   try {
     const resp = await axios.get(`${API_URL}/api/v1/teacher/all`, authHeader());
     dispatch({ type: ALL_TEACHERS, payload: resp.data });
-    console.log(resp.data);
   } catch (error) {
     console.error(error);
   }
