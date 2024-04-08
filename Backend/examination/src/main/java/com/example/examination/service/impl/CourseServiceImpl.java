@@ -9,9 +9,14 @@ import com.example.examination.request.AddCourseReq;
 import com.example.examination.respository.CourseRepository;
 import com.example.examination.respository.TeacherRepository;
 import com.example.examination.service.ICourseService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class CourseServiceImpl implements ICourseService {
@@ -34,5 +39,17 @@ public class CourseServiceImpl implements ICourseService {
                 .status(1)
                 .teacherEntity(teacher).build();
         return courseMapper.apply(courseRepository.save(courseEntity));
+    }
+
+    @Override
+    public Page<CourseDTO> getCourses(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CourseEntity> courseEntities = courseRepository.findAll(pageable);
+        return courseEntities.map(new Function<CourseEntity, CourseDTO>() {
+            @Override
+            public CourseDTO apply(CourseEntity courseEntity) {
+                return courseMapper.apply(courseEntity);
+            }
+        });
     }
 }
