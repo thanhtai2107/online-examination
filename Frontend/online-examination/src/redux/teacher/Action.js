@@ -3,6 +3,7 @@ import { API_URL } from "../../config/api";
 import authHeader from "../../config/auth-header";
 import {
   ADD_TEACHER,
+  ALL_TEACHERS,
   DELETE_TEACHER,
   GET_TEACHER,
   GET_TEACHERS,
@@ -31,6 +32,15 @@ export const getTeachers = (req) => async (dispatch) => {
       authHeader()
     );
     dispatch({ type: GET_TEACHERS, payload: resp.data });
+    console.log(resp.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getAllTeacher = () => async (dispatch) => {
+  try {
+    const resp = await axios.get(`${API_URL}/api/v1/teacher/all`, authHeader());
+    dispatch({ type: ALL_TEACHERS, payload: resp.data });
     console.log(resp.data);
   } catch (error) {
     console.error(error);
