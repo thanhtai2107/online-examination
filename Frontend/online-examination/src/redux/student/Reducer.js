@@ -1,5 +1,6 @@
 import {
   ADD_STUDENT,
+  DELETE_STUDENT,
   GET_STUDENT,
   GET_STUDENTS,
   UPDATE_STUDENT,
@@ -9,6 +10,7 @@ const initialValue = {
   students: [],
   student: null,
   updateStudent: null,
+  deleteStudent: null,
 };
 export const studentReducer = (state = initialValue, { type, payload }) => {
   switch (type) {
@@ -20,6 +22,8 @@ export const studentReducer = (state = initialValue, { type, payload }) => {
       return { ...state, student: payload };
     case UPDATE_STUDENT:
       return { ...state, updateStudent: payload };
+    case DELETE_STUDENT:
+      return { ...state, deleteStudent: payload };
     default:
       return state;
   }

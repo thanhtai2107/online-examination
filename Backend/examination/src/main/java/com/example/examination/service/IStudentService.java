@@ -13,4 +13,5 @@ public interface IStudentService {
     Page<StudentDTO> getStudents(int page, int size);
     StudentDTO getStudentById(Long id) throws StudentException, UserException;
     StudentDTO updateStudent(UpdateStudentReq req) throws StudentException, UserException, CourseException;
+    String deleteStudent(Long id) throws UserException;
 }
