@@ -40,4 +40,8 @@ public class StudentController {
     public ResponseEntity<StudentDTO> updateStudent(@RequestBody @Valid UpdateStudentReq req) throws StudentException, CourseException, UserException {
         return ResponseEntity.ok(studentService.updateStudent(req));
     }
+    @DeleteMapping("/student")
+    public ResponseEntity<String> deleteStudent(@RequestParam Long id) throws UserException {
+        return ResponseEntity.ok(studentService.deleteStudent(id));
+    }
 }

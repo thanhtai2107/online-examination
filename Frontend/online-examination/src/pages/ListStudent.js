@@ -3,6 +3,7 @@ import validation from "../service/validation";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addStudent,
+  deleteStudent,
   getStudent,
   getStudents,
   updateStudent,
@@ -80,8 +81,8 @@ function ListStudent() {
       handleCloseupdateStudentForm();
     }
   };
-  const handleDeleteTeacher = (id) => {
-    // dispatch(deleteTeacher(id));
+  const handleDeleteStudent = (id) => {
+    dispatch(deleteStudent(id));
   };
   const handlePopupAddStudentForm = () => {
     document.getElementById("add-student").style.display = "flex";
@@ -108,7 +109,13 @@ function ListStudent() {
       size: 5,
     };
     dispatch(getStudents(data));
-  }, [student.addStudent, student.updateStudent, dispatch]);
+  }, [
+    student.addStudent,
+    student.updateStudent,
+    student.deleteStudent,
+    dispatch,
+    currentPage,
+  ]);
   useEffect(() => {
     setUpdateData({
       id: student.student?.id,
@@ -175,7 +182,7 @@ function ListStudent() {
                   <a onClick={() => handlePopupupdateStudentForm(record.id)}>
                     Cập nhật
                   </a>
-                  <a onClick={() => handleDeleteTeacher(record.id)}>Xóa</a>
+                  <a onClick={() => handleDeleteStudent(record.id)}>Xóa</a>
                 </Space>
               )}
             />
@@ -353,15 +360,17 @@ function ListStudent() {
                 <label htmlFor="">Trạng thái:</label>
                 <br />
                 <select
-                  value={
-                    updateData.status === 1 ? "Ngưng hoạt động" : "Hoạt động"
-                  }
+                  defaultValue="--Trạng thái--"
                   onChange={(e) => handleStatusChange(e)}
                   name="status"
                 >
-                  <option>--Trạng thái--</option>
-                  <option>Hoạt động</option>
-                  <option>Ngưng hoạt động</option>
+                  <option disabled>--Trạng thái--</option>
+                  <option selected={student.student?.courseId === 1}>
+                    Hoạt động
+                  </option>
+                  <option selected={student.student?.courseId === 0}>
+                    Ngưng hoạt động
+                  </option>
                 </select>
                 {updateStudentErrors.status && (
                   <span className="error">{updateStudentErrors.status}</span>

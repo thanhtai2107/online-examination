@@ -109,4 +109,12 @@ public class StudentServiceImpl implements IStudentService {
         StudentEntity studentSaved = studentRepository.save(studentEntity);
         return studentDTOMapper.apply(studentSaved);
     }
+
+    @Override
+    public String deleteStudent(Long id) throws UserException {
+        if (userRepository.findUserEntityByStudentEntity_Id(id) == null) throw new UserException("User not found");
+        UserEntity userEntity = userRepository.findUserEntityByStudentEntity_Id(id);
+        userRepository.delete(userEntity);
+        return "Delete student with id: " + id;
+    }
 }
