@@ -3,11 +3,13 @@ import { thunk } from "redux-thunk";
 import { authReducer } from "./auth/Reducer";
 import { teacherReducer } from "./teacher/Reducer";
 import { courseReducer } from "./course/Reducer";
+import { studentReducer } from "./student/Reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   teacher: teacherReducer,
   course: courseReducer,
+  student: studentReducer,
 });
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));

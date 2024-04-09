@@ -35,6 +35,9 @@ export default function validation(values) {
   if (Object.keys(values).includes("teacherId") && values.teacherId === "") {
     errors.teacherId = "Vui lòng chọn giáo viên";
   }
+  if (Object.keys(values).includes("courseId") && values.courseId === "") {
+    errors.courseId = "Vui lòng chọn khóa học";
+  }
   if (
     Object.keys(values).includes("dateOfBirth") &&
     values.dateOfBirth === ""

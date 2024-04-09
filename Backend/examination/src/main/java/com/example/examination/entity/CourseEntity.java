@@ -3,6 +3,7 @@ package com.example.examination.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Builder
@@ -20,4 +21,6 @@ public class CourseEntity {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private TeacherEntity teacherEntity;
+    @OneToMany(mappedBy = "course")
+    private List<StudentEntity> studentEntities;
 }

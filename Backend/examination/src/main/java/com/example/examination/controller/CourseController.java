@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("api/v1")
@@ -29,5 +31,9 @@ public class CourseController {
     public ResponseEntity<Page<CourseDTO>> getCourses(@RequestParam(defaultValue = "0") int page,
                                                       @RequestParam(defaultValue = "5") int size) {
         return ResponseEntity.ok(courseService.getCourses(page, size));
+    }
+    @GetMapping("/course/all")
+    public ResponseEntity<List<CourseDTO>> getCourses() {
+        return ResponseEntity.ok(courseService.allCourses());
     }
 }
