@@ -52,4 +52,15 @@ public class CourseServiceImpl implements ICourseService {
             }
         });
     }
+
+    @Override
+    public List<CourseDTO> allCourses() {
+        List<CourseEntity> courseEntities = courseRepository.findAll();
+        return courseEntities.stream().map(new Function<CourseEntity, CourseDTO>() {
+            @Override
+            public CourseDTO apply(CourseEntity courseEntity) {
+                return courseMapper.apply(courseEntity);
+            }
+        }).toList();
+    }
 }

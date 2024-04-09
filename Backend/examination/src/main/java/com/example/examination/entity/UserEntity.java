@@ -31,6 +31,8 @@ public class UserEntity implements UserDetails {
     private AdminEntity adminEntity;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private TeacherEntity teacherEntity;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private StudentEntity studentEntity;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

@@ -35,7 +35,8 @@ public class WebSecurityConfig {
                     request.requestMatchers("/api/v1/teacher/add",
                             "api/v1/teachers",
                             "api/v1/teacher",
-                            "api/v1/course/**"
+                            "api/v1/course/**",
+                            "api/v1/student/**"
                     ).hasAuthority("ADMIN");
                     request.anyRequest().authenticated();
                 })

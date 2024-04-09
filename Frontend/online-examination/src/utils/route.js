@@ -3,6 +3,7 @@ import AnotherTable from "../pages/AnotherTable";
 import Dashboard from "../pages/Dashboard";
 import Exam from "../pages/Exam";
 import ListCourse from "../pages/ListCourse";
+import ListStudent from "../pages/ListStudent";
 import ListTeacher from "../pages/ListTeacher";
 import Login from "../pages/Login";
 import { PrivateRoute } from "./PrivateRoute";
@@ -30,6 +31,12 @@ export const route = [
   {
     path: "/teachers",
     component: ListTeacher,
+    layout: AdminLayout,
+    private: PrivateRoute,
+  },
+  {
+    path: "/students",
+    component: ListStudent,
     layout: AdminLayout,
     private: PrivateRoute,
   },
