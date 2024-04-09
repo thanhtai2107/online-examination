@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import validation from "../service/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { addStudent, getStudents } from "../redux/student/Action";
+import {
+  addStudent,
+  getStudent,
+  getStudents,
+  updateStudent,
+} from "../redux/student/Action";
 import { Pagination, Table, Space } from "antd";
 import { allCourse } from "../redux/course/Action";
 
@@ -39,6 +44,20 @@ function ListStudent() {
     const option = el.getAttribute("id");
     setInputData({ ...inputData, courseId: option });
   };
+  const handleCourseUpdateChange = (e) => {
+    const index = e.target.selectedIndex;
+    const el = e.target.childNodes[index];
+    const option = el.getAttribute("id");
+    setUpdateData({ ...updateData, courseId: option });
+  };
+  const handleStatusChange = (e) => {
+    const status = e.target.value;
+    if (status === "Hoạt động") {
+      setUpdateData({ ...updateData, status: 1 });
+    } else {
+      setUpdateData({ ...updateData, status: 0 });
+    }
+  };
   const handleChangeUpdate = (e) => {
     setUpdateData({ ...updateData, [e.target.name]: e.target.value });
   };
@@ -52,14 +71,14 @@ function ListStudent() {
     }
   };
   const handleSubmitupdateStudent = (e) => {
-    // e.preventDefault();
-    // const error = validation(updateData);
-    // setupdateStudentErrors(error);
-    // if (Object.keys(error).length === 0) {
-    //   dispatch(updateStudent(updateData));
-    //   console.log("update data", updateData);
-    //   handleCloseupdateStudentForm();
-    // }
+    e.preventDefault();
+    const error = validation(updateData);
+    setupdateStudentErrors(error);
+    if (Object.keys(error).length === 0) {
+      dispatch(updateStudent(updateData));
+      console.log("update data", updateData);
+      handleCloseupdateStudentForm();
+    }
   };
   const handleDeleteTeacher = (id) => {
     // dispatch(deleteTeacher(id));
@@ -72,7 +91,7 @@ function ListStudent() {
   };
   const handlePopupupdateStudentForm = (id) => {
     document.getElementById("update-student").style.display = "flex";
-    // dispatch(getTeacher(id));
+    dispatch(getStudent(id));
   };
   const handleCloseupdateStudentForm = () => {
     document.getElementById("update-student").style.display = "none";
@@ -89,7 +108,20 @@ function ListStudent() {
       size: 5,
     };
     dispatch(getStudents(data));
-  }, [course.add, dispatch]);
+  }, [student.addStudent, student.updateStudent, dispatch]);
+  useEffect(() => {
+    setUpdateData({
+      id: student.student?.id,
+      fullname: student.student?.fullname,
+      email: student.student?.email,
+      dateOfBirth: new Date(student.student?.dateOfBirth).toLocaleDateString(
+        "en-CA"
+      ),
+      gender: student.student?.gender,
+      status: student.student?.status === "Hoạt động" ? 1 : 0,
+      courseId: student.student?.courseId,
+    });
+  }, [student.student]);
   if (student?.students) {
     return (
       <>
@@ -324,7 +356,7 @@ function ListStudent() {
                   value={
                     updateData.status === 1 ? "Ngưng hoạt động" : "Hoạt động"
                   }
-                  onChange={(e) => handleChangeUpdate(e)}
+                  onChange={(e) => handleStatusChange(e)}
                   name="status"
                 >
                   <option>--Trạng thái--</option>
@@ -333,6 +365,36 @@ function ListStudent() {
                 </select>
                 {updateStudentErrors.status && (
                   <span className="error">{updateStudentErrors.status}</span>
+                )}
+              </div>
+              <div className="input-field">
+                <label htmlFor="">Khóa học:</label>
+                <br />
+                <select
+                  onChange={(e) => handleCourseUpdateChange(e)}
+                  name="gender"
+                  defaultValue="--Khóa học--"
+                >
+                  <option disabled>--Khóa học--</option>
+                  {course.allCourse &&
+                    course.allCourse.map((item) => {
+                      if (student.student?.courseId === item.id) {
+                        return (
+                          <option selected key={item.id} id={item.id}>
+                            {item.title}
+                          </option>
+                        );
+                      } else {
+                        return (
+                          <option key={item.id} id={item.id}>
+                            {item.title}
+                          </option>
+                        );
+                      }
+                    })}
+                </select>
+                {addStudentErrors.courseId && (
+                  <span className="error">{addStudentErrors.courseId}</span>
                 )}
               </div>
               <button type="submit">

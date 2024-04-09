@@ -6,9 +6,11 @@ import com.example.examination.entity.StudentEntity;
 import com.example.examination.entity.UserEntity;
 import com.example.examination.enums.Role;
 import com.example.examination.exception.CourseException;
+import com.example.examination.exception.StudentException;
 import com.example.examination.exception.UserException;
 import com.example.examination.mapper.StudentDTOMapper;
 import com.example.examination.request.AddStudentReq;
+import com.example.examination.request.UpdateStudentReq;
 import com.example.examination.respository.CourseRepository;
 import com.example.examination.respository.StudentRepository;
 import com.example.examination.respository.UserRepository;
@@ -71,5 +73,40 @@ public class StudentServiceImpl implements IStudentService {
                 return studentDTOMapper.apply(studentEntity);
             }
         });
+    }
+
+    @Override
+    public StudentDTO getStudentById(Long id) throws StudentException, UserException {
+        if (studentRepository.findById(id).isEmpty()) throw new StudentException(("Student not found"));
+        if(userRepository.findUserEntityByStudentEntity_Id(id) == null) throw new UserException("User not found");
+        UserEntity userEntity = userRepository.findUserEntityByStudentEntity_Id(id);
+        StudentEntity studentEntity = studentRepository.findById(id).get();
+        return new StudentDTO(id,
+                userEntity.getEmail(),
+                studentEntity.getFullname(),
+                studentEntity.getGender(),
+                studentEntity.getDateOfBirth(),
+                userEntity.getDateCreated(),
+                userEntity.getStatus(),
+                studentEntity.getCourse().getId());
+    }
+
+    @Override
+    public StudentDTO updateStudent(UpdateStudentReq req) throws StudentException, UserException, CourseException {
+        if (studentRepository.findById(req.id()).isEmpty()) throw new StudentException(("Student not found"));
+        if(userRepository.findUserEntityByStudentEntity_Id(req.id()) == null) throw new UserException("User not found");
+        if (courseRepository.findById(req.courseId()).isEmpty()) throw new CourseException("Course not found");
+        UserEntity userEntity = userRepository.findUserEntityByStudentEntity_Id(req.id());
+        StudentEntity studentEntity = studentRepository.findById(req.id()).get();
+        CourseEntity courseEntity = courseRepository.findById(req.courseId()).get();
+        userEntity.setStatus(req.status());
+        UserEntity userSaved = userRepository.save(userEntity);
+        studentEntity.setFullname(req.fullname());
+        studentEntity.setGender(req.gender());
+        studentEntity.setDateOfBirth(req.dateOfBirth());
+        studentEntity.setUser(userSaved);
+        studentEntity.setCourse(courseEntity);
+        StudentEntity studentSaved = studentRepository.save(studentEntity);
+        return studentDTOMapper.apply(studentSaved);
     }
 }
