@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import validation from "../service/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { addStudent } from "../redux/student/Action";
+import { addStudent, getStudents } from "../redux/student/Action";
 import { Pagination, Table, Space } from "antd";
 import { allCourse } from "../redux/course/Action";
 
@@ -83,6 +83,13 @@ function ListStudent() {
   useEffect(() => {
     dispatch(allCourse());
   }, [course.add, dispatch]);
+  useEffect(() => {
+    const data = {
+      page: currentPage - 1,
+      size: 5,
+    };
+    dispatch(getStudents(data));
+  }, [course.add, dispatch]);
   if (student?.students) {
     return (
       <>
@@ -101,15 +108,7 @@ function ListStudent() {
             size="small"
             pagination={false}
           >
-            <Column
-              title="Tên giáo viên"
-              dataIndex="fullname"
-              key="fullname"
-              // sorter={{
-              //   compare: (a, b) => a.fullname - b.fullname,
-              //   multiple: 3,
-              // }}
-            />
+            <Column title="Tên học sinh" dataIndex="fullname" key="fullname" />
             <Column title="Email" dataIndex="email" key="email" />
             <Column
               title="Ngày sinh"
@@ -123,7 +122,13 @@ function ListStudent() {
               key="gender"
               width={80}
             />
-            <Column title="Trạng thái" dataIndex="status" key="status" />
+            <Column
+              title="Trạng thái"
+              key="status"
+              render={(_, record) => (
+                <>{record.status === 1 ? "Hoạt động" : "Ngưng hoạt động"}</>
+              )}
+            />
             <Column
               title="Ngày tạo"
               dataIndex="dateCreated"

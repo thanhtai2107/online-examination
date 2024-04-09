@@ -13,10 +13,14 @@ import com.example.examination.respository.CourseRepository;
 import com.example.examination.respository.StudentRepository;
 import com.example.examination.respository.UserRepository;
 import com.example.examination.service.IStudentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.function.Function;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
@@ -55,5 +59,17 @@ public class StudentServiceImpl implements IStudentService {
                 .course(courseEntity)
                 .build();
         return studentDTOMapper.apply(studentRepository.save(studentEntity));
+    }
+
+    @Override
+    public Page<StudentDTO> getStudents(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<StudentEntity> studentEntities = studentRepository.findAll(pageable);
+        return studentEntities.map(new Function<StudentEntity, StudentDTO>() {
+            @Override
+            public StudentDTO apply(StudentEntity studentEntity) {
+                return studentDTOMapper.apply(studentEntity);
+            }
+        });
     }
 }

@@ -1,11 +1,13 @@
 package com.example.examination.controller;
 
 import com.example.examination.dto.StudentDTO;
+import com.example.examination.dto.TeacherDTO;
 import com.example.examination.exception.CourseException;
 import com.example.examination.exception.UserException;
 import com.example.examination.request.AddStudentReq;
 import com.example.examination.service.impl.StudentServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,5 +25,10 @@ public class StudentController {
     @PostMapping("/student/add")
     public ResponseEntity<StudentDTO> addStudent(@RequestBody @Valid AddStudentReq req) throws CourseException, UserException {
         return new  ResponseEntity<>(studentService.addStudent(req), HttpStatus.CREATED);
+    }
+    @GetMapping("/students")
+    public ResponseEntity<Page<StudentDTO>> getTeachers(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(studentService.getStudents(page, size));
     }
 }
