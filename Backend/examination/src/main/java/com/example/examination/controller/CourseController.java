@@ -36,4 +36,8 @@ public class CourseController {
     public ResponseEntity<List<CourseDTO>> getCourses() {
         return ResponseEntity.ok(courseService.allCourses());
     }
+    @GetMapping("/courses/active")
+    public ResponseEntity<List<CourseDTO>> getCoursesActive() {
+        return ResponseEntity.ok(courseService.getCoursesActive());
+    }
 }

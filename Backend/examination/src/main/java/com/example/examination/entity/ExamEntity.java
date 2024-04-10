@@ -2,8 +2,8 @@ package com.example.examination.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Builder
@@ -11,18 +11,15 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-public class CourseEntity {
+public class ExamEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private int totalTime;
     private Date dateCreated;
     private int status;
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
-    private TeacherEntity teacherEntity;
-    @OneToMany(mappedBy = "course")
-    private List<StudentEntity> studentEntities;
-    @OneToMany(mappedBy = "course")
-    private List<ExamEntity> examEntities;
+    @JoinColumn(name = "course_id")
+    private CourseEntity course;
 }
