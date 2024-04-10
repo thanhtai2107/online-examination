@@ -1,5 +1,4 @@
 import AdminLayout from "../layout/AdminLayout";
-import AnotherTable from "../pages/AnotherTable";
 import Dashboard from "../pages/Dashboard";
 import Exam from "../pages/Exam";
 import ListCourse from "../pages/ListCourse";
@@ -7,12 +6,13 @@ import ListStudent from "../pages/ListStudent";
 import ListTeacher from "../pages/ListTeacher";
 import Login from "../pages/Login";
 import { PrivateRoute } from "./PrivateRoute";
+import ListExam from "../pages/ListExam";
 
 export const route = [
   { path: "/", component: Login, layout: null, private: null },
   {
     path: "/exams",
-    component: AnotherTable,
+    component: ListExam,
     layout: AdminLayout,
     private: PrivateRoute,
   },

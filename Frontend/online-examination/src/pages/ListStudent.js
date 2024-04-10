@@ -407,7 +407,7 @@ function ListStudent() {
                 )}
               </div>
               <button type="submit">
-                <i className="fa-solid fa-plus"></i> Thêm
+                <i className="fa-solid fa-plus"></i> Cập nhật
               </button>
             </form>
           </div>

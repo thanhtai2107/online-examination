@@ -38,6 +38,9 @@ export default function validation(values) {
   if (Object.keys(values).includes("courseId") && values.courseId === "") {
     errors.courseId = "Vui lòng chọn khóa học";
   }
+  if (Object.keys(values).includes("totalTime") && values.totalTime === "") {
+    errors.totalTime = "Vui lòng nhập thời gian(phút)";
+  }
   if (
     Object.keys(values).includes("dateOfBirth") &&
     values.dateOfBirth === ""

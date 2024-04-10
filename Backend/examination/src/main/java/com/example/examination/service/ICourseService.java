@@ -11,4 +11,5 @@ public interface ICourseService {
     CourseDTO addCourse(AddCourseReq req) throws TeacherException;
     Page<CourseDTO> getCourses(int page, int size);
     List<CourseDTO> allCourses();
+    List<CourseDTO> getCoursesActive();
 }
