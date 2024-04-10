@@ -1,4 +1,50 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getExam, updateExam } from "../redux/exam/Action";
+import { activeCourses } from "../redux/course/Action";
+import validation from "../service/validation";
+
 function UpdateExam() {
+  const dispatch = useDispatch();
+  const exam = useSelector((store) => store.exam);
+  const course = useSelector((store) => store.course);
+  const { id } = useParams();
+  const [updateExamData, setUpdateExamData] = useState({
+    id: "",
+    title: "",
+    totalTime: "",
+    courseId: "",
+    status: "",
+  });
+  const [updateExamErrors, setUpdateExamErrors] = useState({});
+  const handleSubmitUpdateExam = (e) => {
+    e.preventDefault();
+    const error = validation(updateExamData);
+    setUpdateExamErrors(error);
+    if (Object.keys(error).length === 0) {
+      dispatch(updateExam(updateExamData));
+      console.log(updateExamData);
+    }
+  };
+  const handleUpdateExamChange = (e) => {
+    setUpdateExamData({ ...updateExamData, [e.target.name]: e.target.value });
+  };
+  const handleCourseUpdateExamChange = (e) => {
+    const index = e.target.selectedIndex;
+    const el = e.target.childNodes[index];
+    const option = el.getAttribute("id");
+    setUpdateExamData({ ...updateExamData, courseId: option });
+  };
+  const handleStatusUpdateExamChange = (e) => {
+    if (e.target.value === "Đang diễn ra") {
+      setUpdateExamData({ ...updateExamData, status: 1 });
+    } else if (e.target.value === "Sắp diễn ra") {
+      setUpdateExamData({ ...updateExamData, status: 2 });
+    } else {
+      setUpdateExamData({ ...updateExamData, status: 0 });
+    }
+  };
   const handlePopupAddQuestionForm = () => {
     document.getElementById("add-question").style.display = "flex";
   };
@@ -11,32 +57,88 @@ function UpdateExam() {
   const handleCloseUpdateQuestionForm = () => {
     document.getElementById("update-question").style.display = "none";
   };
+  useEffect(() => {
+    dispatch(getExam(id));
+    dispatch(activeCourses());
+  }, []);
+  useEffect(() => {
+    setUpdateExamData({
+      id: id,
+      title: exam.exam?.title,
+      totalTime: exam.exam?.totalTime,
+      courseId: exam.exam?.courseId,
+      status: exam.exam?.status,
+    });
+  }, [exam.exam, exam.updateExam, id]);
   return (
     <>
       <div className="update-exam-wrapper">
         <h3>Cập nhật bài thi</h3>
         <div className="update-exam-content">
           <div className="left">
-            <form action="" className="form-add">
+            <form
+              action=""
+              className="form-add"
+              onSubmit={handleSubmitUpdateExam}
+            >
               <div className="input-field">
                 <label htmlFor="">Tên bài thi:</label>
                 <br />
-                <input type="text" />
+                <input
+                  type="text"
+                  name="title"
+                  value={updateExamData.title}
+                  onChange={(e) => handleUpdateExamChange(e)}
+                />
               </div>
               <div className="input-field">
                 <label htmlFor="">Thời gian:</label>
                 <br />
-                <input type="number" />
+                <input
+                  type="number"
+                  name="totalTime"
+                  value={updateExamData.totalTime}
+                  onChange={(e) => handleUpdateExamChange(e)}
+                />
               </div>
               <div className="input-field">
                 <label htmlFor="">Tên bài thi:</label>
                 <br />
-                <select>
+                <select onChange={(e) => handleCourseUpdateExamChange(e)}>
                   <option selected disabled>
                     --Lớp--
                   </option>
-                  <option>HTML-CSS cơ bản</option>
-                  <option>Java nâng cao</option>
+                  {course.activeCourses &&
+                    course.activeCourses.map((item) => {
+                      return (
+                        <option
+                          selected={exam.exam?.courseId === item.id}
+                          key={item.id}
+                          id={item.id}
+                        >
+                          {item.title}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+              <div className="input-field">
+                <label htmlFor="">Trạng thái:</label>
+                <br />
+                <select
+                  defaultValue="--Trạng thái--"
+                  onChange={(e) => handleStatusUpdateExamChange(e)}
+                >
+                  <option disabled>--Trạng thái--</option>
+                  <option selected={exam.exam?.status === 1}>
+                    Đang diễn ra
+                  </option>
+                  <option selected={exam.exam?.status === 2}>
+                    Sắp diễn ra
+                  </option>
+                  <option selected={exam.exam?.status === 0}>
+                    Đã hoàn thành
+                  </option>
                 </select>
               </div>
               <button type="submit">
