@@ -2,7 +2,9 @@ package com.example.examination.controller;
 
 import com.example.examination.dto.ExamDTO;
 import com.example.examination.exception.CourseException;
+import com.example.examination.exception.ExamException;
 import com.example.examination.request.AddExamReq;
+import com.example.examination.request.UpdateExamReq;
 import com.example.examination.service.impl.ExamServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -29,5 +31,13 @@ public class ExamController {
     public ResponseEntity<Page<ExamDTO>> getExams(@RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "5") int size) {
         return ResponseEntity.ok(examService.getExams(page, size));
+    }
+    @GetMapping("/exam")
+    public ResponseEntity<ExamDTO> getExams(@RequestParam Long id) throws ExamException {
+        return ResponseEntity.ok(examService.getExamById(id));
+    }
+    @PutMapping("/exam/update")
+    public ResponseEntity<ExamDTO> updateExam(@RequestBody @Valid UpdateExamReq req) throws ExamException, CourseException {
+        return ResponseEntity.ok(examService.updateExam(req));
     }
 }

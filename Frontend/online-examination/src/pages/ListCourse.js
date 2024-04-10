@@ -152,7 +152,6 @@ function ListCourse() {
                 <span className="error">{addCourseErrors.teacherId}</span>
               )}
             </div>
-
             <button type="submit">Thêm</button>
           </form>
         </div>

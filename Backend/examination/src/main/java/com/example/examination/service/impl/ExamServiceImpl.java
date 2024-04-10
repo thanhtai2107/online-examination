@@ -4,8 +4,10 @@ import com.example.examination.dto.ExamDTO;
 import com.example.examination.entity.CourseEntity;
 import com.example.examination.entity.ExamEntity;
 import com.example.examination.exception.CourseException;
+import com.example.examination.exception.ExamException;
 import com.example.examination.mapper.ExamDTOMapper;
 import com.example.examination.request.AddExamReq;
+import com.example.examination.request.UpdateExamReq;
 import com.example.examination.respository.CourseRepository;
 import com.example.examination.respository.ExamRepository;
 import com.example.examination.service.IExamService;
@@ -37,7 +39,7 @@ public class ExamServiceImpl implements IExamService {
                 .title(req.title())
                 .totalTime(req.totalTime())
                 .dateCreated(new Date())
-                .status(1)
+                .status(2)
                 .course(courseEntity)
                 .build();
         ExamEntity examSaved = examRepository.save(examEntity);
@@ -54,5 +56,26 @@ public class ExamServiceImpl implements IExamService {
                 return examDTOMapper.apply(examEntity);
             }
         });
+    }
+
+    @Override
+    public ExamDTO updateExam(UpdateExamReq req) throws ExamException, CourseException {
+        if (courseRepository.findById(req.courseId()).isEmpty()) throw new CourseException("Course not found");
+        if (examRepository.findById(req.id()).isEmpty()) throw  new ExamException("Exam not found");
+        CourseEntity courseEntity = courseRepository.findById(req.courseId()).get();
+        ExamEntity examEntity = examRepository.findById(req.id()).get();
+        examEntity.setTitle(req.title());
+        examEntity.setTotalTime(req.totalTime());
+        examEntity.setStatus(req.status());
+        examEntity.setCourse(courseEntity);
+        ExamEntity examSaved = examRepository.save(examEntity);
+        return examDTOMapper.apply(examSaved);
+    }
+
+    @Override
+    public ExamDTO getExamById(Long id) throws ExamException {
+        if (examRepository.findById(id).isEmpty()) throw  new ExamException("Exam not found");
+        ExamEntity examEntity = examRepository.findById(id).get();
+        return examDTOMapper.apply(examEntity);
     }
 }
