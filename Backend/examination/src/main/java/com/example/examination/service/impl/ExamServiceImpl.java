@@ -9,8 +9,13 @@ import com.example.examination.request.AddExamReq;
 import com.example.examination.respository.CourseRepository;
 import com.example.examination.respository.ExamRepository;
 import com.example.examination.service.IExamService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.function.Function;
 
 @Service
 public class ExamServiceImpl implements IExamService {
@@ -37,5 +42,17 @@ public class ExamServiceImpl implements IExamService {
                 .build();
         ExamEntity examSaved = examRepository.save(examEntity);
         return examDTOMapper.apply(examSaved);
+    }
+
+    @Override
+    public Page<ExamDTO> getExams(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending());
+        Page<ExamEntity> examEntities = examRepository.findAll(pageable);
+        return examEntities.map(new Function<ExamEntity, ExamDTO>() {
+            @Override
+            public ExamDTO apply(ExamEntity examEntity) {
+                return examDTOMapper.apply(examEntity);
+            }
+        });
     }
 }

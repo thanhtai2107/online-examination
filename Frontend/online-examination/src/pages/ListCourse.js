@@ -106,7 +106,7 @@ function ListCourse() {
         <div className="pagination">
           <Pagination
             defaultCurrent={1}
-            total={teacher?.teachers.totalElements}
+            total={course?.courses.totalElements}
             size="small"
             current={currentPage}
             onChange={(current) => handlePageChange(current)}

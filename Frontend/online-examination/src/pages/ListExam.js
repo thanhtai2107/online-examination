@@ -1,20 +1,26 @@
-import tableData1 from "../data/tableData1.json";
-import Table from "../components/table/Table";
+import { Pagination, Table, Space } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { activeCourses } from "../redux/course/Action";
 import validation from "../service/validation";
-import { addExam } from "../redux/exam/Action";
+import { addExam, getExams } from "../redux/exam/Action";
+import { Link } from "react-router-dom";
 
 function ListExam() {
   const dispatch = useDispatch();
   const course = useSelector((store) => store.course);
+  const exam = useSelector((store) => store.exam);
   const [addExamErrors, setAddExamErrors] = useState({});
   const [inputData, setInputData] = useState({
     title: "",
     totalTime: "",
     courseId: "",
   });
+  const { Column } = Table;
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (current) => {
+    setCurrentPage(current);
+  };
   const handleInputChange = (e) => {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
   };
@@ -24,13 +30,6 @@ function ListExam() {
     const id = el.getAttribute("id");
     setInputData({ ...inputData, courseId: id });
   };
-  const columns = [
-    { label: "Tên bài thi", accessor: "exam_name" },
-    { label: "Thuộc khóa", accessor: "of_course" },
-    { label: "Giáo viên", accessor: "teacher" },
-    { label: "Ngày thi", accessor: "exam_date" },
-    { label: "Thời gian", accessor: "time" },
-  ];
 
   const handleSubmitAddExam = (e) => {
     e.preventDefault();
@@ -51,6 +50,13 @@ function ListExam() {
   useEffect(() => {
     dispatch(activeCourses());
   }, [dispatch]);
+  useEffect(() => {
+    const data = {
+      page: currentPage - 1,
+      size: 5,
+    };
+    dispatch(getExams(data));
+  }, [dispatch, exam.addExam]);
   return (
     <>
       <div className="list-exam-wrapper">
@@ -61,10 +67,50 @@ function ListExam() {
           </button>
         </div>
         <Table
-          columns={columns}
-          // caption={"Danh sách bài thi"}
-          data={tableData1}
-        />
+          style={{ margin: "15px 0px" }}
+          dataSource={exam.exams?.content}
+          tableLayout={"fixed"}
+          size="small"
+          pagination={false}
+        >
+          <Column title="Tên bài thi" dataIndex="title" key="fullname" />
+          <Column
+            title="Tổng thời gian(phút)"
+            dataIndex="totalTime"
+            key="totalTime"
+          />
+          <Column
+            title="Trạng thái"
+            key="status"
+            render={(_, record) => (
+              <>{record.status === 1 ? "Hoạt động" : "Ngưng hoạt động"}</>
+            )}
+          />
+          <Column
+            title="Ngày tạo"
+            dataIndex="dateCreated"
+            key="dateCreated"
+            ellipsis
+          />
+          <Column
+            title="Action"
+            key="action"
+            render={(_, record) => (
+              <Space size="middle">
+                <Link to={`/exam/update/${record.id}`}>Cập nhật</Link>
+              </Space>
+            )}
+          />
+        </Table>
+        <div className="pagination">
+          <Pagination
+            defaultCurrent={1}
+            total={exam?.exams.totalElements}
+            size="small"
+            current={currentPage}
+            onChange={(current) => handlePageChange(current)}
+          />
+        </div>
         <div className="add-exam" id="add-exam">
           <form action="" className="form-add" onSubmit={handleSubmitAddExam}>
             <i

@@ -4,6 +4,7 @@ import Exam from "../pages/Exam";
 import ListCourse from "../pages/ListCourse";
 import ListStudent from "../pages/ListStudent";
 import ListTeacher from "../pages/ListTeacher";
+import UpdateExam from "../pages/UpdateExam";
 import Login from "../pages/Login";
 import { PrivateRoute } from "./PrivateRoute";
 import ListExam from "../pages/ListExam";
@@ -20,6 +21,12 @@ export const route = [
     path: "/exam",
     component: Exam,
     layout: null,
+    private: PrivateRoute,
+  },
+  {
+    path: "/exam/update/:id",
+    component: UpdateExam,
+    layout: AdminLayout,
     private: PrivateRoute,
   },
   {
