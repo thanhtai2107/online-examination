@@ -47,6 +47,39 @@ export default function validation(values) {
   ) {
     errors.dateOfBirth = "Vui lòng chọn ngày sinh";
   }
+  if (Object.keys(values).includes("question") && values.question === "") {
+    errors.question = "Vui lòng nhập thời gian(phút)";
+  }
+  if (
+    Object.keys(values).includes("firstAnswer") &&
+    values.firstAnswer === ""
+  ) {
+    errors.firstAnswer = "Vui lòng nhập thời gian(phút)";
+  }
+  if (
+    Object.keys(values).includes("secondAnswer") &&
+    values.secondAnswer === ""
+  ) {
+    errors.secondAnswer = "Vui lòng nhập thời gian(phút)";
+  }
+  if (
+    Object.keys(values).includes("thirdAnswer") &&
+    values.thirdAnswer === ""
+  ) {
+    errors.thirdAnswer = "Vui lòng nhập thời gian(phút)";
+  }
+  if (
+    Object.keys(values).includes("fourthAnswer") &&
+    values.fourthAnswer === ""
+  ) {
+    errors.fourthAnswer = "Vui lòng nhập thời gian(phút)";
+  }
+  if (
+    Object.keys(values).includes("correctAnswer") &&
+    values.correctAnswer === ""
+  ) {
+    errors.correctAnswer = "Vui lòng nhập thời gian(phút)";
+  }
 
   return errors;
 }

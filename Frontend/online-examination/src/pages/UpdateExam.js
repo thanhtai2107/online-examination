@@ -4,12 +4,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { getExam, updateExam } from "../redux/exam/Action";
 import { activeCourses } from "../redux/course/Action";
 import validation from "../service/validation";
+import { addQuestion } from "../redux/question/Action";
 
 function UpdateExam() {
   const dispatch = useDispatch();
   const exam = useSelector((store) => store.exam);
   const course = useSelector((store) => store.course);
   const { id } = useParams();
+  const [inputAddQuestion, setInputAddQuestion] = useState({
+    question: "",
+    firstAnswer: "",
+    secondAnswer: "",
+    thirdAnswer: "",
+    fourthAnswer: "",
+    correctAnswer: "",
+    examId: id,
+  });
   const [updateExamData, setUpdateExamData] = useState({
     id: "",
     title: "",
@@ -18,14 +28,30 @@ function UpdateExam() {
     status: "",
   });
   const [updateExamErrors, setUpdateExamErrors] = useState({});
+  const [addQuestionErrors, setAddQuestionErrors] = useState({});
   const handleSubmitUpdateExam = (e) => {
     e.preventDefault();
     const error = validation(updateExamData);
-    setUpdateExamErrors(error);
+    setAddQuestionErrors(error);
     if (Object.keys(error).length === 0) {
       dispatch(updateExam(updateExamData));
       console.log(updateExamData);
     }
+  };
+  const handleSubmitAddQuestion = (e) => {
+    e.preventDefault();
+    const error = validation(inputAddQuestion);
+    setUpdateExamErrors(error);
+    if (Object.keys(error).length === 0) {
+      dispatch(addQuestion(inputAddQuestion));
+      handleCloseAddQuestionForm();
+    }
+  };
+  const handleInputAddQuestionChange = (e) => {
+    setInputAddQuestion({
+      ...inputAddQuestion,
+      [e.target.name]: e.target.value,
+    });
   };
   const handleUpdateExamChange = (e) => {
     setUpdateExamData({ ...updateExamData, [e.target.name]: e.target.value });
@@ -60,7 +86,7 @@ function UpdateExam() {
   useEffect(() => {
     dispatch(getExam(id));
     dispatch(activeCourses());
-  }, []);
+  }, [id, dispatch]);
   useEffect(() => {
     setUpdateExamData({
       id: id,
@@ -142,7 +168,7 @@ function UpdateExam() {
                 </select>
               </div>
               <button type="submit">
-                <i class="fa-solid fa-pen-to-square"></i>Cập nhật
+                <i className="fa-solid fa-pen-to-square"></i>Cập nhật
               </button>
             </form>
           </div>
@@ -372,7 +398,11 @@ function UpdateExam() {
           </div>
         </div>
         <div className="add-question" id="add-question">
-          <form action="" className="form-add">
+          <form
+            action=""
+            className="form-add"
+            onSubmit={handleSubmitAddQuestion}
+          >
             <i
               className="fa-solid fa-xmark close"
               onClick={handleCloseAddQuestionForm}
@@ -381,33 +411,81 @@ function UpdateExam() {
             <div className="input-field">
               <label htmlFor="">Câu hỏi:</label>
               <br />
-              <textarea rows={7}></textarea>
+              <textarea
+                name="question"
+                value={inputAddQuestion.question}
+                rows={7}
+                onChange={(e) => handleInputAddQuestionChange(e)}
+              ></textarea>
+              {addQuestionErrors.question && (
+                <span className="error">{addQuestionErrors.question}</span>
+              )}
             </div>
             <div className="input-field">
               <label htmlFor="">Đáp án 1:</label>
               <br />
-              <input type="text" />
+              <input
+                type="text"
+                name="firstAnswer"
+                value={inputAddQuestion.firstAnswer}
+                onChange={(e) => handleInputAddQuestionChange(e)}
+              />
+              {addQuestionErrors.firstAnswer && (
+                <span className="error">{addQuestionErrors.firstAnswer}</span>
+              )}
             </div>
 
             <div className="input-field">
               <label htmlFor="">Đáp án 2:</label>
               <br />
-              <input type="text" />
+              <input
+                type="text"
+                name="secondAnswer"
+                value={inputAddQuestion.secondAnswer}
+                onChange={(e) => handleInputAddQuestionChange(e)}
+              />
+              {addQuestionErrors.secondAnswer && (
+                <span className="error">{addQuestionErrors.secondAnswer}</span>
+              )}
             </div>
             <div className="input-field">
               <label htmlFor="">Đáp án 3:</label>
               <br />
-              <input type="text" />
+              <input
+                type="text"
+                name="thirdAnswer"
+                value={inputAddQuestion.thirdAnswer}
+                onChange={(e) => handleInputAddQuestionChange(e)}
+              />
+              {addQuestionErrors.thirdAnswer && (
+                <span className="error">{addQuestionErrors.thirdAnswer}</span>
+              )}
             </div>
             <div className="input-field">
               <label htmlFor="">Đáp án 4:</label>
               <br />
-              <input type="text" />
+              <input
+                type="text"
+                name="fourthAnswer"
+                value={inputAddQuestion.fourthAnswer}
+                onChange={(e) => handleInputAddQuestionChange(e)}
+              />
+              {addQuestionErrors.fourthAnswer && (
+                <span className="error">{addQuestionErrors.fourthAnswer}</span>
+              )}
             </div>
             <div className="input-field">
               <label htmlFor="">Câu trả lời:</label>
               <br />
-              <input type="text" />
+              <input
+                type="text"
+                name="correctAnswer"
+                value={inputAddQuestion.correctAnswer}
+                onChange={(e) => handleInputAddQuestionChange(e)}
+              />
+              {addQuestionErrors.correctAnswer && (
+                <span className="error">{addQuestionErrors.correctAnswer}</span>
+              )}
             </div>
             <button type="submit">
               <i className="fa-solid fa-plus"></i> Thêm
