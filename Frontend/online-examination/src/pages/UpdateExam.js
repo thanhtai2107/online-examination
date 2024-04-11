@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getExam, updateExam } from "../redux/exam/Action";
 import { activeCourses } from "../redux/course/Action";
 import validation from "../service/validation";
-import { addQuestion, getQuestions } from "../redux/question/Action";
+import {
+  addQuestion,
+  getQuestion,
+  getQuestions,
+  updateQuestion,
+} from "../redux/question/Action";
 
 function UpdateExam() {
   const dispatch = useDispatch();
@@ -12,7 +17,18 @@ function UpdateExam() {
   const course = useSelector((store) => store.course);
   const question = useSelector((store) => store.question);
   const { id } = useParams();
+  const [questionId, setQuestionId] = useState();
   const [inputAddQuestion, setInputAddQuestion] = useState({
+    question: "",
+    firstAnswer: "",
+    secondAnswer: "",
+    thirdAnswer: "",
+    fourthAnswer: "",
+    correctAnswer: "",
+    examId: id,
+  });
+  const [inputUpdateQuestion, setInputUpdateQuestion] = useState({
+    id: "",
     question: "",
     firstAnswer: "",
     secondAnswer: "",
@@ -30,6 +46,7 @@ function UpdateExam() {
   });
   const [updateExamErrors, setUpdateExamErrors] = useState({});
   const [addQuestionErrors, setAddQuestionErrors] = useState({});
+  const [updateQuestionErrors, setUpdateQuestionErrors] = useState({});
   const handleSubmitUpdateExam = (e) => {
     e.preventDefault();
     const error = validation(updateExamData);
@@ -48,9 +65,24 @@ function UpdateExam() {
       handleCloseAddQuestionForm();
     }
   };
+  const handleSubmitUpdateQuestion = (e) => {
+    e.preventDefault();
+    const error = validation(inputUpdateQuestion);
+    setUpdateQuestionErrors(error);
+    if (Object.keys(error).length === 0) {
+      dispatch(updateQuestion(inputUpdateQuestion));
+      handleCloseUpdateQuestionForm();
+    }
+  };
   const handleInputAddQuestionChange = (e) => {
     setInputAddQuestion({
       ...inputAddQuestion,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleInputUpdateQuestionChange = (e) => {
+    setInputUpdateQuestion({
+      ...inputUpdateQuestion,
       [e.target.name]: e.target.value,
     });
   };
@@ -78,8 +110,10 @@ function UpdateExam() {
   const handleCloseAddQuestionForm = () => {
     document.getElementById("add-question").style.display = "none";
   };
-  const handlePopupUpdateQuestionForm = () => {
+  const handlePopupUpdateQuestionForm = (id) => {
     document.getElementById("update-question").style.display = "flex";
+    dispatch(getQuestion(id));
+    setQuestionId(id);
   };
   const handleCloseUpdateQuestionForm = () => {
     document.getElementById("update-question").style.display = "none";
@@ -87,8 +121,10 @@ function UpdateExam() {
   useEffect(() => {
     dispatch(getExam(id));
     dispatch(activeCourses());
-    dispatch(getQuestions(id));
   }, [id, dispatch]);
+  useEffect(() => {
+    dispatch(getQuestions(id));
+  }, [id, question.addQuestion, question.updateQuestion, dispatch]);
   useEffect(() => {
     setUpdateExamData({
       id: id,
@@ -98,6 +134,19 @@ function UpdateExam() {
       status: exam.exam?.status,
     });
   }, [exam.exam, exam.updateExam, id]);
+
+  useEffect(() => {
+    setInputUpdateQuestion({
+      id: questionId,
+      question: question.question?.question,
+      firstAnswer: question.question?.firstAnswer,
+      secondAnswer: question.question?.secondAnswer,
+      thirdAnswer: question.question?.thirdAnswer,
+      fourthAnswer: question.question?.fourthAnswer,
+      correctAnswer: question.question?.correctAnswer,
+      examId: question.question?.examId,
+    });
+  }, [question.question, dispatch]);
   return (
     <>
       <div className="update-exam-wrapper">
@@ -199,7 +248,9 @@ function UpdateExam() {
                         <div className="icon-group">
                           <i
                             class="fa-solid fa-pen-to-square update"
-                            onClick={handlePopupUpdateQuestionForm}
+                            onClick={() =>
+                              handlePopupUpdateQuestionForm(item.id)
+                            }
                           ></i>
                           <i class="fa-regular fa-trash-can delete"></i>
                         </div>
@@ -225,7 +276,11 @@ function UpdateExam() {
                 })}
             </div>
             <div className="update-question" id="update-question">
-              <form action="" className="form-add">
+              <form
+                action=""
+                className="form-add"
+                onSubmit={handleSubmitUpdateQuestion}
+              >
                 <i
                   className="fa-solid fa-xmark close"
                   onClick={handleCloseUpdateQuestionForm}
@@ -234,33 +289,93 @@ function UpdateExam() {
                 <div className="input-field">
                   <label htmlFor="">Câu hỏi:</label>
                   <br />
-                  <textarea rows={7}></textarea>
+                  <textarea
+                    value={inputUpdateQuestion.question}
+                    name="question"
+                    rows={7}
+                    onChange={(e) => handleInputUpdateQuestionChange(e)}
+                  ></textarea>
+                  {updateQuestionErrors.question && (
+                    <span className="error">
+                      {updateQuestionErrors.question}
+                    </span>
+                  )}
                 </div>
                 <div className="input-field">
                   <label htmlFor="">Đáp án 1:</label>
                   <br />
-                  <input type="text" />
+                  <input
+                    type="text"
+                    value={inputUpdateQuestion.firstAnswer}
+                    name="firstAnswer"
+                    onChange={(e) => handleInputUpdateQuestionChange(e)}
+                  />
+                  {updateQuestionErrors.firstAnswer && (
+                    <span className="error">
+                      {updateQuestionErrors.firstAnswer}
+                    </span>
+                  )}
                 </div>
 
                 <div className="input-field">
                   <label htmlFor="">Đáp án 2:</label>
                   <br />
-                  <input type="text" />
+                  <input
+                    type="text"
+                    value={inputUpdateQuestion.secondAnswer}
+                    name="secondAnswer"
+                    onChange={(e) => handleInputUpdateQuestionChange(e)}
+                  />
+                  {updateQuestionErrors.secondAnswer && (
+                    <span className="error">
+                      {updateQuestionErrors.secondAnswer}
+                    </span>
+                  )}
                 </div>
                 <div className="input-field">
                   <label htmlFor="">Đáp án 3:</label>
                   <br />
-                  <input type="text" />
+                  <input
+                    type="text"
+                    value={inputUpdateQuestion.thirdAnswer}
+                    name="thirdAnswer"
+                    onChange={(e) => handleInputUpdateQuestionChange(e)}
+                  />
+                  {updateQuestionErrors.thirdAnswer && (
+                    <span className="error">
+                      {updateQuestionErrors.thirdAnswer}
+                    </span>
+                  )}
                 </div>
                 <div className="input-field">
                   <label htmlFor="">Đáp án 4:</label>
                   <br />
-                  <input type="text" />
+                  <input
+                    type="text"
+                    value={inputUpdateQuestion.fourthAnswer}
+                    name="fourthAnswer"
+                    onChange={(e) => handleInputUpdateQuestionChange(e)}
+                  />
+                  {updateQuestionErrors.fourthAnswer && (
+                    <span className="error">
+                      {updateQuestionErrors.fourthAnswer}
+                    </span>
+                  )}
                 </div>
                 <div className="input-field">
                   <label htmlFor="">Câu trả lời:</label>
                   <br />
-                  <input type="text" />
+                  <input
+                    type="text"
+                    value={inputUpdateQuestion.correctAnswer}
+                    name="correctAnswer"
+                    onChange={(e) => handleInputUpdateQuestionChange(e)}
+                  />
+                  {updateQuestionErrors.correctAnswer && (
+                    <span className="error">
+                      {updateQuestionErrors.correctAnswer}
+                    </span>
+                  )}
                 </div>
                 <button type="submit">
                   <i className="fa-solid fa-plus"></i> Thêm

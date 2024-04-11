@@ -1,2 +1,4 @@
 export const ADD_QUESTION = "ADD_QUESTION";
+export const UPDATE_QUESTION = "UPDATE_QUESTION";
 export const GET_QUESTIONS = "GET_QUESTIONS";
+export const GET_QUESTION = "GET_QUESTION";

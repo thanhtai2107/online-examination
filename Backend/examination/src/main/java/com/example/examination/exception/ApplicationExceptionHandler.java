@@ -48,4 +48,9 @@ public class ApplicationExceptionHandler {
         ApiError apiError = new ApiError(400, e.getMessage(), new Date());
         return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(QuestionException.class)
+    public ResponseEntity<ApiError> handleBusinessException(QuestionException e) {
+        ApiError apiError = new ApiError(400, e.getMessage(), new Date());
+        return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
+    }
 }
