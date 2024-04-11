@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getExam, updateExam } from "../redux/exam/Action";
 import { activeCourses } from "../redux/course/Action";
 import validation from "../service/validation";
-import { addQuestion } from "../redux/question/Action";
+import { addQuestion, getQuestions } from "../redux/question/Action";
 
 function UpdateExam() {
   const dispatch = useDispatch();
   const exam = useSelector((store) => store.exam);
   const course = useSelector((store) => store.course);
+  const question = useSelector((store) => store.question);
   const { id } = useParams();
   const [inputAddQuestion, setInputAddQuestion] = useState({
     question: "",
@@ -86,6 +87,7 @@ function UpdateExam() {
   useEffect(() => {
     dispatch(getExam(id));
     dispatch(activeCourses());
+    dispatch(getQuestions(id));
   }, [id, dispatch]);
   useEffect(() => {
     setUpdateExamData({
@@ -186,171 +188,41 @@ function UpdateExam() {
               </button>
             </div>
             <div className="preview-question">
-              <div className="question-item">
-                <div className="question-icon">
-                  <h6>
-                    1. Java được phát triển bởi dfjsfsdhfkahdfhsadhfkhasdfhakh
-                  </h6>
-                  <div className="icon-group">
-                    <i
-                      class="fa-solid fa-pen-to-square update"
-                      onClick={handlePopupUpdateQuestionForm}
-                    ></i>
-                    <i class="fa-regular fa-trash-can delete"></i>
-                  </div>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-              </div>
-              <div className="question-item">
-                <div className="question-icon">
-                  <h6>
-                    1. Java được phát triển bởi dfjsfsdhfkahdfhsadhfkhasdfhakh
-                  </h6>
-                  <div className="icon-group">
-                    <i class="fa-solid fa-pen-to-square update"></i>
-                    <i class="fa-regular fa-trash-can delete"></i>
-                  </div>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-              </div>
-              <div className="question-item">
-                <div className="question-icon">
-                  <h6>
-                    1. Java được phát triển bởi dfjsfsdhfkahdfhsadhfkhasdfhakh
-                  </h6>
-                  <div className="icon-group">
-                    <i class="fa-solid fa-pen-to-square update"></i>
-                    <i class="fa-regular fa-trash-can delete"></i>
-                  </div>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-              </div>
-              <div className="question-item">
-                <div className="question-icon">
-                  <h6>
-                    1. Java được phát triển bởi dfjsfsdhfkahdfhsadhfkhasdfhakh
-                  </h6>
-                  <div className="icon-group">
-                    <i class="fa-solid fa-pen-to-square update"></i>
-                    <i class="fa-regular fa-trash-can delete"></i>
-                  </div>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-              </div>
-              <div className="question-item">
-                <div className="question-icon">
-                  <h6>
-                    1. Java được phát triển bởi dfjsfsdhfkahdfhsadhfkhasdfhakh
-                  </h6>
-                  <div className="icon-group">
-                    <i class="fa-solid fa-pen-to-square update"></i>
-                    <i class="fa-regular fa-trash-can delete"></i>
-                  </div>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-              </div>
-              <div className="question-item">
-                <div className="question-icon">
-                  <h6>
-                    1. Java được phát triển bởi dfjsfsdhfkahdfhsadhfkhasdfhakh
-                  </h6>
-                  <div className="icon-group">
-                    <i class="fa-solid fa-pen-to-square update"></i>
-                    <i class="fa-regular fa-trash-can delete"></i>
-                  </div>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-                <div className="answers">
-                  <input type="radio" />
-                  <label>Sun MicroSystems</label>
-                </div>
-              </div>
+              {question.questions &&
+                question.questions.map((item, index) => {
+                  return (
+                    <div className="question-item" key={item.id}>
+                      <div className="question-icon">
+                        <h6>
+                          {index + 1}. {item.question}
+                        </h6>
+                        <div className="icon-group">
+                          <i
+                            class="fa-solid fa-pen-to-square update"
+                            onClick={handlePopupUpdateQuestionForm}
+                          ></i>
+                          <i class="fa-regular fa-trash-can delete"></i>
+                        </div>
+                      </div>
+                      <div className="answers">
+                        <input name={item.id} type="radio" />
+                        <label>{item.firstAnswer}</label>
+                      </div>
+                      <div className="answers">
+                        <input name={item.id} type="radio" />
+                        <label>{item.secondAnswer}</label>
+                      </div>
+                      <div className="answers">
+                        <input name={item.id} type="radio" />
+                        <label>{item.thirdAnswer}</label>
+                      </div>
+                      <div className="answers">
+                        <input name={item.id} type="radio" />
+                        <label>{item.fourthAnswer}</label>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
             <div className="update-question" id="update-question">
               <form action="" className="form-add">

@@ -11,6 +11,9 @@ import com.example.examination.respository.QuestionRepository;
 import com.example.examination.service.IQuestionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.function.Function;
+
 @Service
 public class QuestionServiceImpl implements IQuestionService {
     private final ExamRepository examRepository;
@@ -38,5 +41,18 @@ public class QuestionServiceImpl implements IQuestionService {
                 .build();
         QuestionEntity saved = questionRepository.save(question);
         return questionDTOMapper.apply(saved);
+    }
+
+    @Override
+    public List<QuestionDTO> getQuestionsByExamId(Long id) throws ExamException {
+        if (examRepository.findById(id).isEmpty()) throw  new ExamException("Exam not found");
+        ExamEntity examEntity = examRepository.findById(id).get();
+        List<QuestionEntity> questionEntities = questionRepository.findQuestionEntitiesByExam_Id(id);
+        return questionEntities.stream().map(new Function<QuestionEntity, QuestionDTO>() {
+            @Override
+            public QuestionDTO apply(QuestionEntity questionEntity) {
+                return questionDTOMapper.apply(questionEntity);
+            }
+        }).toList();
     }
 }

@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("api/v1")
@@ -21,5 +23,10 @@ public class QuestionController {
     @PostMapping("/question/add")
     public ResponseEntity<QuestionDTO> addQuestion(@RequestBody @Valid AddQuestionReq req) throws ExamException {
         return ResponseEntity.ok(questionService.addQuestion(req));
+    }
+
+    @GetMapping("/questions")
+    public ResponseEntity<List<QuestionDTO>> getQuestionByExamId(@RequestParam  Long id) throws ExamException {
+        return ResponseEntity.ok(questionService.getQuestionsByExamId(id));
     }
 }
