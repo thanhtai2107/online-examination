@@ -1,7 +1,12 @@
 import axios from "axios";
 import authHeader from "../../config/auth-header";
 import { API_URL } from "../../config/api";
-import { ADD_QUESTION, GET_QUESTIONS } from "./ActionType";
+import {
+  ADD_QUESTION,
+  GET_QUESTION,
+  GET_QUESTIONS,
+  UPDATE_QUESTION,
+} from "./ActionType";
 import { toast } from "react-toastify";
 
 export const addQuestion = (req) => async (dispatch) => {
@@ -28,5 +33,32 @@ export const getQuestions = (req) => async (dispatch) => {
     console.log("questions", resp.data);
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getQuestion = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.get(
+      `${API_URL}/api/v1/question?id=${req}`,
+      authHeader()
+    );
+    dispatch({ type: GET_QUESTION, payload: resp.data });
+    console.log("question", resp.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateQuestion = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.put(
+      `${API_URL}/api/v1/question/update`,
+      req,
+      authHeader()
+    );
+    dispatch({ type: UPDATE_QUESTION, payload: resp.data });
+    toast.success("Cập nhật thành công");
+  } catch (error) {
+    toast.error("Cập nhật thất bại");
   }
 };

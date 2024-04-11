@@ -4,8 +4,10 @@ import com.example.examination.dto.QuestionDTO;
 import com.example.examination.entity.ExamEntity;
 import com.example.examination.entity.QuestionEntity;
 import com.example.examination.exception.ExamException;
+import com.example.examination.exception.QuestionException;
 import com.example.examination.mapper.QuestionDTOMapper;
 import com.example.examination.request.AddQuestionReq;
+import com.example.examination.request.UpdateQuestionReq;
 import com.example.examination.respository.ExamRepository;
 import com.example.examination.respository.QuestionRepository;
 import com.example.examination.service.IQuestionService;
@@ -54,5 +56,28 @@ public class QuestionServiceImpl implements IQuestionService {
                 return questionDTOMapper.apply(questionEntity);
             }
         }).toList();
+    }
+
+    @Override
+    public QuestionDTO updateQuestion(UpdateQuestionReq req) throws ExamException, QuestionException {
+        if (examRepository.findById(req.examId()).isEmpty()) throw  new ExamException("Exam not found");
+        ExamEntity examEntity = examRepository.findById(req.examId()).get();
+        if (questionRepository.findById(req.id()).isEmpty()) throw new QuestionException("Question not found");
+        QuestionEntity questionEntity = questionRepository.findById(req.id()).get();
+        questionEntity.setQuestion(req.question());
+        questionEntity.setFirstAnswer(req.firstAnswer());
+        questionEntity.setSecondAnswer(req.secondAnswer());
+        questionEntity.setThirdAnswer(req.thirdAnswer());
+        questionEntity.setFourthAnswer(req.fourthAnswer());
+        questionEntity.setCorrectAnswer(req.correctAnswer());
+        QuestionEntity saved = questionRepository.save(questionEntity);
+        return questionDTOMapper.apply(saved);
+    }
+
+    @Override
+    public QuestionDTO getQuestionById(Long id) throws QuestionException {
+        if (questionRepository.findById(id).isEmpty()) throw new QuestionException("Question not found");
+        QuestionEntity questionEntity = questionRepository.findById(id).get();
+        return questionDTOMapper.apply(questionEntity);
     }
 }
