@@ -3,6 +3,7 @@ import authHeader from "../../config/auth-header";
 import { API_URL } from "../../config/api";
 import {
   ADD_QUESTION,
+  DELETE_QUESTION,
   GET_QUESTION,
   GET_QUESTIONS,
   UPDATE_QUESTION,
@@ -60,5 +61,20 @@ export const updateQuestion = (req) => async (dispatch) => {
     toast.success("Cập nhật thành công");
   } catch (error) {
     toast.error("Cập nhật thất bại");
+  }
+};
+
+export const deleteQuestion = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.delete(
+      `${API_URL}/api/v1/question?id=${req}`,
+      authHeader()
+    );
+    dispatch({ type: DELETE_QUESTION, payload: resp.data });
+    toast.success("Xóa câu hỏi thành công");
+    console.log(resp.data);
+  } catch (error) {
+    toast.error("Xóa câu hỏi thất bại");
+    console.error(error);
   }
 };

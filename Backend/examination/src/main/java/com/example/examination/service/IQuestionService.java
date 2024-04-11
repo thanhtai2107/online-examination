@@ -13,4 +13,5 @@ public interface IQuestionService {
     List<QuestionDTO> getQuestionsByExamId(Long id) throws ExamException;
     QuestionDTO updateQuestion(UpdateQuestionReq req) throws ExamException, QuestionException;
     QuestionDTO getQuestionById(Long id) throws QuestionException;
+    String deleteQuestionById(Long id) throws QuestionException;
 }

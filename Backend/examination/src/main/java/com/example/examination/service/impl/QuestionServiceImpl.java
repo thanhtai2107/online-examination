@@ -80,4 +80,12 @@ public class QuestionServiceImpl implements IQuestionService {
         QuestionEntity questionEntity = questionRepository.findById(id).get();
         return questionDTOMapper.apply(questionEntity);
     }
+
+    @Override
+    public String deleteQuestionById(Long id) throws QuestionException {
+        if (questionRepository.findById(id).isEmpty()) throw new QuestionException("Question not found");
+        QuestionEntity questionEntity = questionRepository.findById(id).get();
+        questionRepository.delete(questionEntity);
+        return "Delete question with id: " + id;
+    }
 }
