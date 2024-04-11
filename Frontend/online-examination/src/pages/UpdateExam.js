@@ -6,6 +6,7 @@ import { activeCourses } from "../redux/course/Action";
 import validation from "../service/validation";
 import {
   addQuestion,
+  deleteQuestion,
   getQuestion,
   getQuestions,
   updateQuestion,
@@ -74,6 +75,9 @@ function UpdateExam() {
       handleCloseUpdateQuestionForm();
     }
   };
+  const handleDeleteQuestion = (id) => {
+    dispatch(deleteQuestion(id));
+  };
   const handleInputAddQuestionChange = (e) => {
     setInputAddQuestion({
       ...inputAddQuestion,
@@ -124,7 +128,13 @@ function UpdateExam() {
   }, [id, dispatch]);
   useEffect(() => {
     dispatch(getQuestions(id));
-  }, [id, question.addQuestion, question.updateQuestion, dispatch]);
+  }, [
+    id,
+    question.addQuestion,
+    question.updateQuestion,
+    question.deleteQuestion,
+    dispatch,
+  ]);
   useEffect(() => {
     setUpdateExamData({
       id: id,
@@ -247,12 +257,15 @@ function UpdateExam() {
                         </h6>
                         <div className="icon-group">
                           <i
-                            class="fa-solid fa-pen-to-square update"
+                            className="fa-solid fa-pen-to-square update"
                             onClick={() =>
                               handlePopupUpdateQuestionForm(item.id)
                             }
                           ></i>
-                          <i class="fa-regular fa-trash-can delete"></i>
+                          <i
+                            className="fa-regular fa-trash-can delete"
+                            onClick={() => handleDeleteQuestion(item.id)}
+                          ></i>
                         </div>
                       </div>
                       <div className="answers">

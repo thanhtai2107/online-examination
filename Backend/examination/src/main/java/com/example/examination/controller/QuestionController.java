@@ -40,4 +40,9 @@ public class QuestionController {
     public ResponseEntity<QuestionDTO> getQuestionByid(@RequestParam Long id) throws QuestionException {
         return ResponseEntity.ok(questionService.getQuestionById(id));
     }
+
+    @DeleteMapping("/question")
+    public ResponseEntity<String> deleteQuestion(@RequestParam Long id) throws QuestionException {
+        return ResponseEntity.ok(questionService.deleteQuestionById(id));
+    }
 }

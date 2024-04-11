@@ -1,5 +1,6 @@
 import {
   ADD_QUESTION,
+  DELETE_QUESTION,
   GET_QUESTION,
   GET_QUESTIONS,
   UPDATE_QUESTION,
@@ -10,6 +11,7 @@ const initialValue = {
   questions: [],
   updateQuestion: null,
   question: null,
+  deleteQuestion: null,
 };
 
 export const questionReducer = (state = initialValue, { type, payload }) => {
@@ -22,6 +24,8 @@ export const questionReducer = (state = initialValue, { type, payload }) => {
       return { ...state, questions: payload };
     case GET_QUESTION:
       return { ...state, question: payload };
+    case DELETE_QUESTION:
+      return { ...state, deleteQuestion: payload };
     default:
       return state;
   }
