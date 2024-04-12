@@ -5,11 +5,13 @@ import com.example.examination.entity.ExamEntity;
 import com.example.examination.entity.QuestionEntity;
 import com.example.examination.exception.ExamException;
 import com.example.examination.exception.QuestionException;
+import com.example.examination.exception.ResultException;
 import com.example.examination.mapper.QuestionDTOMapper;
 import com.example.examination.request.AddQuestionReq;
 import com.example.examination.request.UpdateQuestionReq;
 import com.example.examination.respository.ExamRepository;
 import com.example.examination.respository.QuestionRepository;
+import com.example.examination.respository.ResultRepository;
 import com.example.examination.service.IQuestionService;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +23,13 @@ public class QuestionServiceImpl implements IQuestionService {
     private final ExamRepository examRepository;
     private final QuestionRepository questionRepository;
     private final QuestionDTOMapper questionDTOMapper;
+    private final ResultRepository resultRepository;
 
-    public QuestionServiceImpl(ExamRepository examRepository, QuestionRepository questionRepository, QuestionDTOMapper questionDTOMapper) {
+    public QuestionServiceImpl(ExamRepository examRepository, QuestionRepository questionRepository, QuestionDTOMapper questionDTOMapper, ResultRepository resultRepository) {
         this.examRepository = examRepository;
         this.questionRepository = questionRepository;
         this.questionDTOMapper = questionDTOMapper;
+        this.resultRepository = resultRepository;
     }
 
     @Override
@@ -87,5 +91,19 @@ public class QuestionServiceImpl implements IQuestionService {
         QuestionEntity questionEntity = questionRepository.findById(id).get();
         questionRepository.delete(questionEntity);
         return "Delete question with id: " + id;
+    }
+
+    @Override
+    public List<QuestionDTO> getQuestionsForStudent(Long examId, Long studentId) throws ExamException, ResultException {
+        if (examRepository.findById(examId).isEmpty()) throw new ExamException("Exam not found");
+        if (resultRepository.getResultEntityByExamEntity_IdAndStudentEntity_Id(examId, studentId) != null)
+            throw new ResultException("You have done this exam");
+        List<QuestionEntity>  questionEntities = questionRepository.findQuestionEntitiesByExam_Id(examId);
+        return questionEntities.stream().map(new Function<QuestionEntity, QuestionDTO>() {
+            @Override
+            public QuestionDTO apply(QuestionEntity questionEntity) {
+                return questionDTOMapper.apply(questionEntity);
+            }
+        }).toList();
     }
 }

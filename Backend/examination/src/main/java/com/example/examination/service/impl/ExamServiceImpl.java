@@ -59,6 +59,19 @@ public class ExamServiceImpl implements IExamService {
     }
 
     @Override
+    public Page<ExamDTO> getExamsByCourseId(Long courseId, int page, int size) throws CourseException {
+        if (courseRepository.findById(courseId).isEmpty()) throw new CourseException("Course not found");
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending());
+        Page<ExamEntity> examEntities = examRepository.findExamEntitiesByCourse_Id(courseId, pageable);
+        return examEntities.map(new Function<ExamEntity, ExamDTO>() {
+            @Override
+            public ExamDTO apply(ExamEntity examEntity) {
+                return examDTOMapper.apply(examEntity);
+            }
+        });
+    }
+
+    @Override
     public ExamDTO updateExam(UpdateExamReq req) throws ExamException, CourseException {
         if (courseRepository.findById(req.courseId()).isEmpty()) throw new CourseException("Course not found");
         if (examRepository.findById(req.id()).isEmpty()) throw  new ExamException("Exam not found");

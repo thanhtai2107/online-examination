@@ -5,6 +5,7 @@ import { store } from "../redux/store";
 import { login } from "../redux/auth/Action";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { getStudentByUserId } from "../redux/student/Action";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -23,6 +24,10 @@ function Login() {
   useEffect(() => {
     if (auth?.signin?.userDTO?.role === "ADMIN") {
       navigate("/dashboard");
+    } else if (auth?.signin?.userDTO?.role === "STUDENT") {
+      const userId = localStorage.getItem("userId");
+      dispatch(getStudentByUserId(userId));
+      navigate("/student/exams");
     }
   }, [auth?.signin]);
   return (

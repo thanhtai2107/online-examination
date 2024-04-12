@@ -36,6 +36,10 @@ public class StudentController {
     public ResponseEntity<StudentDTO> getStudent(@RequestParam long id) throws StudentException, UserException {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
+    @GetMapping("/student-user")
+    public ResponseEntity<StudentDTO> getStudentByUserId(@RequestParam long id) throws StudentException, UserException {
+        return ResponseEntity.ok(studentService.getStudentByUserId(id));
+    }
     @PutMapping("/student/update")
     public ResponseEntity<StudentDTO> updateStudent(@RequestBody @Valid UpdateStudentReq req) throws StudentException, CourseException, UserException {
         return ResponseEntity.ok(studentService.updateStudent(req));

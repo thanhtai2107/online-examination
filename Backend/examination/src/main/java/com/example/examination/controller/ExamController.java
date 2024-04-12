@@ -32,10 +32,20 @@ public class ExamController {
                                                   @RequestParam(defaultValue = "5") int size) {
         return ResponseEntity.ok(examService.getExams(page, size));
     }
+
+    @GetMapping("/exams/student")
+    public ResponseEntity<Page<ExamDTO>> getExamsByCourseId(
+            @RequestParam Long courseId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) throws CourseException {
+        return ResponseEntity.ok(examService.getExamsByCourseId(courseId, page, size));
+    }
+
     @GetMapping("/exam")
     public ResponseEntity<ExamDTO> getExams(@RequestParam Long id) throws ExamException {
         return ResponseEntity.ok(examService.getExamById(id));
     }
+
     @PutMapping("/exam/update")
     public ResponseEntity<ExamDTO> updateExam(@RequestBody @Valid UpdateExamReq req) throws ExamException, CourseException {
         return ResponseEntity.ok(examService.updateExam(req));

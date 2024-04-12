@@ -6,6 +6,7 @@ import {
   DELETE_QUESTION,
   GET_QUESTION,
   GET_QUESTIONS,
+  GET_STUDENT_QUESTIONS,
   UPDATE_QUESTION,
 } from "./ActionType";
 import { toast } from "react-toastify";
@@ -33,6 +34,20 @@ export const getQuestions = (req) => async (dispatch) => {
     dispatch({ type: GET_QUESTIONS, payload: resp.data });
     console.log("questions", resp.data);
   } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStudentQuestions = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.get(
+      `${API_URL}/api/v1/questions/student?examId=${req.examId}&studentId=${req.studentId}`,
+      authHeader()
+    );
+    dispatch({ type: GET_STUDENT_QUESTIONS, payload: resp.data });
+    console.log("questions", resp.data);
+  } catch (error) {
+    toast.error("Bạn không thể thực hiện bài thi");
     console.error(error);
   }
 };

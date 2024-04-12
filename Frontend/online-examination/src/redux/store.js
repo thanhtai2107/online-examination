@@ -6,6 +6,7 @@ import { courseReducer } from "./course/Reducer";
 import { studentReducer } from "./student/Reducer";
 import { examReducer } from "./exam/Reducer";
 import { questionReducer } from "./question/Reducer";
+import { resultReducer } from "./result/Reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   student: studentReducer,
   exam: examReducer,
   question: questionReducer,
+  result: resultReducer,
 });
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));

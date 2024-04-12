@@ -92,6 +92,13 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
+    public StudentDTO getStudentByUserId(Long userId) throws StudentException, UserException {
+        if(userRepository.findById(userId).isEmpty()) throw new UserException("User not found");
+        StudentEntity studentEntity = studentRepository.getStudentEntityByUser_Id(userId);
+        return studentDTOMapper.apply(studentEntity);
+    }
+
+    @Override
     public StudentDTO updateStudent(UpdateStudentReq req) throws StudentException, UserException, CourseException {
         if (studentRepository.findById(req.id()).isEmpty()) throw new StudentException(("Student not found"));
         if(userRepository.findUserEntityByStudentEntity_Id(req.id()) == null) throw new UserException("User not found");

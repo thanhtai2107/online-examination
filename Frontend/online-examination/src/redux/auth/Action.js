@@ -8,6 +8,8 @@ export const login = (data) => async (dispatch) => {
     const response = await axios.post(`${API_URL}/api/v1/login`, data);
     const jwt = response.data.token;
     localStorage.setItem("jwt", jwt);
+    localStorage.setItem("userId", response.data.userDTO.id);
+
     dispatch({ type: LOGIN, payload: response.data });
     toast.success("Đăng nhập thành công");
   } catch (err) {
