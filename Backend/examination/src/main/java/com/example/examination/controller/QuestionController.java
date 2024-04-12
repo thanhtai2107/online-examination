@@ -3,6 +3,7 @@ package com.example.examination.controller;
 import com.example.examination.dto.QuestionDTO;
 import com.example.examination.exception.ExamException;
 import com.example.examination.exception.QuestionException;
+import com.example.examination.exception.ResultException;
 import com.example.examination.request.AddQuestionReq;
 import com.example.examination.request.UpdateQuestionReq;
 import com.example.examination.service.impl.QuestionServiceImpl;
@@ -30,6 +31,10 @@ public class QuestionController {
     @GetMapping("/questions")
     public ResponseEntity<List<QuestionDTO>> getQuestionByExamId(@RequestParam  Long id) throws ExamException {
         return ResponseEntity.ok(questionService.getQuestionsByExamId(id));
+    }
+    @GetMapping("/questions/student")
+    public ResponseEntity<List<QuestionDTO>> getQuestionForStudent(@RequestParam  Long examId,@RequestParam  Long studentId) throws ExamException, ResultException {
+        return ResponseEntity.ok(questionService.getQuestionsForStudent(examId, studentId));
     }
     @PutMapping("/question/update")
     public ResponseEntity<QuestionDTO> updateQuestion(@RequestBody @Valid UpdateQuestionReq req) throws ExamException, QuestionException {

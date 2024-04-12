@@ -3,6 +3,7 @@ import {
   DELETE_QUESTION,
   GET_QUESTION,
   GET_QUESTIONS,
+  GET_STUDENT_QUESTIONS,
   UPDATE_QUESTION,
 } from "./ActionType";
 
@@ -12,6 +13,7 @@ const initialValue = {
   updateQuestion: null,
   question: null,
   deleteQuestion: null,
+  studentQuestions: [],
 };
 
 export const questionReducer = (state = initialValue, { type, payload }) => {
@@ -22,6 +24,8 @@ export const questionReducer = (state = initialValue, { type, payload }) => {
       return { ...state, updateQuestion: payload };
     case GET_QUESTIONS:
       return { ...state, questions: payload };
+    case GET_STUDENT_QUESTIONS:
+      return { ...state, studentQuestions: payload };
     case GET_QUESTION:
       return { ...state, question: payload };
     case DELETE_QUESTION:

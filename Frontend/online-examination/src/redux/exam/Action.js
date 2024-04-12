@@ -1,7 +1,13 @@
 import axios from "axios";
 import authHeader from "../../config/auth-header";
 import { API_URL } from "../../config/api";
-import { ADD_EXAM, GET_EXAM, GET_EXAMS, UPDATE_EXAM } from "./ActionType";
+import {
+  ADD_EXAM,
+  GET_EXAM,
+  GET_EXAMS,
+  GET_STUDENT_EXAMS,
+  UPDATE_EXAM,
+} from "./ActionType";
 import { toast } from "react-toastify";
 
 export const addExam = (req) => async (dispatch) => {
@@ -38,6 +44,19 @@ export const getExam = (req) => async (dispatch) => {
       authHeader()
     );
     dispatch({ type: GET_EXAM, payload: resp.data });
+    console.log(resp.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStudentExams = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.get(
+      `${API_URL}/api/v1/exams/student?courseId=${req.courseId}&page=${req.page}&size=${req.size}`,
+      authHeader()
+    );
+    dispatch({ type: GET_STUDENT_EXAMS, payload: resp.data });
     console.log(resp.data);
   } catch (error) {
     console.error(error);

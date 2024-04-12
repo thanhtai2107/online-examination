@@ -9,6 +9,7 @@ import {
   UPDATE_STUDENT,
 } from "./ActionType";
 import { toast } from "react-toastify";
+import { CURRENT_USER } from "../auth/ActionType";
 
 export const addStudent = (req) => async (dispatch) => {
   try {
@@ -44,6 +45,20 @@ export const getStudent = (req) => async (dispatch) => {
       authHeader()
     );
     dispatch({ type: GET_STUDENT, payload: resp.data });
+    console.log(resp.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStudentByUserId = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.get(
+      `${API_URL}/api/v1/student-user?id=${req}`,
+      authHeader()
+    );
+    dispatch({ type: GET_STUDENT, payload: resp.data });
+    dispatch({ type: CURRENT_USER, payload: resp.data });
     console.log(resp.data);
   } catch (error) {
     console.error(error);
