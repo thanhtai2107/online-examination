@@ -1,11 +1,13 @@
 package com.example.examination.controller;
 
 import com.example.examination.dto.ExamDTO;
+import com.example.examination.dto.ResultDTO;
 import com.example.examination.exception.CourseException;
 import com.example.examination.exception.ExamException;
 import com.example.examination.request.AddExamReq;
 import com.example.examination.request.UpdateExamReq;
 import com.example.examination.service.impl.ExamServiceImpl;
+import com.example.examination.service.impl.ResultServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1")
 public class ExamController {
     private final ExamServiceImpl examService;
+    private final ResultServiceImpl resultService;
 
-    public ExamController(ExamServiceImpl examService) {
+    public ExamController(ExamServiceImpl examService, ResultServiceImpl resultService) {
         this.examService = examService;
+        this.resultService = resultService;
     }
 
     @PostMapping("/exam/add")
@@ -49,5 +53,11 @@ public class ExamController {
     @PutMapping("/exam/update")
     public ResponseEntity<ExamDTO> updateExam(@RequestBody @Valid UpdateExamReq req) throws ExamException, CourseException {
         return ResponseEntity.ok(examService.updateExam(req));
+    }
+    @GetMapping("/exam/results")
+    public ResponseEntity<Page<ResultDTO>> getResult(@RequestParam Long id,
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "5") int size) throws ExamException {
+        return ResponseEntity.ok(resultService.getResultByExam(id, page, size));
     }
 }

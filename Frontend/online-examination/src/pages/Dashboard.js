@@ -1,4 +1,28 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTeachers } from "../redux/teacher/Action";
+import { getStudents } from "../redux/student/Action";
+import { getExams } from "../redux/exam/Action";
+import { getCourses } from "../redux/course/Action";
+import { useNavigate } from "react-router-dom";
+
 function Dashboard() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const exam = useSelector((store) => store.exam);
+  const student = useSelector((store) => store.student);
+  const teacher = useSelector((store) => store.teacher);
+  const course = useSelector((store) => store.course);
+  useEffect(() => {
+    const data = {
+      page: 0,
+      size: 5,
+    };
+    dispatch(getTeachers(data));
+    dispatch(getStudents(data));
+    dispatch(getExams(data));
+    dispatch(getCourses(data));
+  }, [dispatch]);
   return (
     <>
       <div className="dashboard-wrapper">
@@ -10,10 +34,10 @@ function Dashboard() {
           <div className="count">
             <p>
               Tổng:
-              <span> 50</span>
+              <span> {teacher.teachers?.totalElements}</span>
             </p>
           </div>
-          <button>Xem</button>
+          <button onClick={() => navigate("/teachers")}>Xem</button>
         </div>
         <div className="widgets-wrapper">
           <div className="content">
@@ -22,10 +46,10 @@ function Dashboard() {
           <div className="count">
             <p>
               Tổng:
-              <span> 50</span>
+              <span>{student.students?.totalElements}</span>
             </p>
           </div>
-          <button>Xem</button>
+          <button onClick={() => navigate("/students")}>Xem</button>
         </div>
         <div className="widgets-wrapper">
           <div className="content">
@@ -34,10 +58,10 @@ function Dashboard() {
           <div className="count">
             <p>
               Tổng:
-              <span> 50</span>
+              <span> {exam.exams?.totalElements}</span>
             </p>
           </div>
-          <button>Xem</button>
+          <button onClick={() => navigate("/exams")}>Xem</button>
         </div>
         <div className="widgets-wrapper">
           <div className="content">
@@ -47,10 +71,10 @@ function Dashboard() {
           <div className="count">
             <p>
               Tổng:
-              <span> 50</span>
+              <span>{course.courses?.totalElements}</span>
             </p>
           </div>
-          <button>Xem</button>
+          <button onClick={() => navigate("/courses")}>Xem</button>
         </div>
       </div>
     </>

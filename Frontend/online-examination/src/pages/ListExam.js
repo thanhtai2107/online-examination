@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { activeCourses } from "../redux/course/Action";
 import validation from "../service/validation";
 import { addExam, getExams } from "../redux/exam/Action";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ListExam() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const course = useSelector((store) => store.course);
   const exam = useSelector((store) => store.exam);
@@ -97,7 +98,18 @@ function ListExam() {
             key="action"
             render={(_, record) => (
               <Space size="middle">
-                <Link to={`/exam/update/${record.id}`}>Cập nhật</Link>
+                <p
+                  style={{ color: "blue", cursor: "pointer" }}
+                  onClick={() => navigate(`/exam/update/${record.id}`)}
+                >
+                  Cập nhật
+                </p>
+                <p
+                  style={{ color: "blue", cursor: "pointer" }}
+                  onClick={() => navigate(`/exam/results/${record.id}`)}
+                >
+                  Xem kết quả
+                </p>
               </Space>
             )}
           />

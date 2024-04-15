@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                             "api/v1/course/**",
                             "api/v1/student/**"
                     ).hasAuthority("ADMIN");
+
                     request.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -2,6 +2,7 @@ package com.example.examination.controller;
 
 import com.example.examination.dto.ResultDTO;
 import com.example.examination.exception.ExamException;
+import com.example.examination.exception.ResultException;
 import com.example.examination.exception.StudentException;
 import com.example.examination.request.AddResultReq;
 import com.example.examination.service.impl.ResultServiceImpl;
@@ -20,7 +21,7 @@ public class ResultController {
     }
 
     @PostMapping("/result/save")
-    public ResponseEntity<ResultDTO> saveResult(@RequestBody @Valid AddResultReq req) throws StudentException, ExamException {
+    public ResponseEntity<ResultDTO> saveResult(@RequestBody @Valid AddResultReq req) throws StudentException, ExamException, ResultException {
         return ResponseEntity.ok(resultService.save(req));
     }
 }
