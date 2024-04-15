@@ -42,6 +42,7 @@ function Exam() {
     };
     console.log(data);
     dispatch(saveResult(data));
+    document.getElementById("exam-result").style.display = "flex";
   };
   const handleSelected = (e, id) => {
     if (answersSelected.length > 0) {
@@ -64,7 +65,7 @@ function Exam() {
     }
   };
   const onFinish = () => {
-    console.log("finished!");
+    handleSubmit();
   };
   useEffect(() => {
     const data = {
@@ -78,9 +79,6 @@ function Exam() {
     setCountTime(Date.now() + exam.exam?.totalTime * 60 * 1000);
   }, [exam.exam]);
 
-  useEffect(() => {
-    navigate("/student/exams");
-  }, result.result);
   return (
     <>
       <div className="main">
@@ -200,6 +198,25 @@ function Exam() {
               >
                 Nộp bài
               </button>
+            </div>
+            <div className="exam-result" id="exam-result">
+              <div className="form-add">
+                <h2>Kết quả</h2>
+                <div className="content">
+                  <p>
+                    Tên bài thi: <b>{exam.exam?.title}</b>{" "}
+                  </p>
+                  <p>
+                    Thời gian: <b>{exam.exam?.totalTime}</b>
+                  </p>
+                  <p>
+                    Số điểm đạt được: <b>{result.saveResult?.score}</b>
+                  </p>
+                </div>
+                <button onClick={() => navigate("/student/exams")}>
+                  Trở về
+                </button>
+              </div>
             </div>
           </div>
         </div>

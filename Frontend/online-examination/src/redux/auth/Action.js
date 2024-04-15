@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../../config/api";
-import { LOGIN } from "./ActionType";
+import { LOGIN, LOGOUT } from "./ActionType";
 import { toast } from "react-toastify";
 
 export const login = (data) => async (dispatch) => {
@@ -16,4 +16,10 @@ export const login = (data) => async (dispatch) => {
     toast.error("Đăng nhập thất bại");
     console.log(err);
   }
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT, payload: null });
+  toast.success("Bạn đã đăng xuât khỏi tài khoản");
+  localStorage.clear();
 };

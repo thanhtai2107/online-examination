@@ -147,10 +147,18 @@ function ListTeacher() {
               key="action"
               render={(_, record) => (
                 <Space size="middle">
-                  <a onClick={() => handlePopupUpdateTeacherForm(record.id)}>
+                  <p
+                    style={{ color: "blue", cursor: "pointer" }}
+                    onClick={() => handlePopupUpdateTeacherForm(record.id)}
+                  >
                     Cập nhật
-                  </a>
-                  <a onClick={() => handleDeleteTeacher(record.id)}>Xóa</a>
+                  </p>
+                  <p
+                    style={{ color: "blue", cursor: "pointer" }}
+                    onClick={() => handleDeleteTeacher(record.id)}
+                  >
+                    Xóa
+                  </p>
                 </Space>
               )}
             />

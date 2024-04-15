@@ -7,6 +7,8 @@ public record ResultDTO(
         double score,
         Date dateCreated,
         Long studentId,
-        Long examId
+        String studentName,
+        Long examId,
+        String examName
 ) {
 }

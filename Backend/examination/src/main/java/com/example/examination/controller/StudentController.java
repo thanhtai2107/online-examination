@@ -1,11 +1,13 @@
 package com.example.examination.controller;
 
+import com.example.examination.dto.ResultDTO;
 import com.example.examination.dto.StudentDTO;
 import com.example.examination.exception.CourseException;
 import com.example.examination.exception.StudentException;
 import com.example.examination.exception.UserException;
 import com.example.examination.request.AddStudentReq;
 import com.example.examination.request.UpdateStudentReq;
+import com.example.examination.service.impl.ResultServiceImpl;
 import com.example.examination.service.impl.StudentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -18,34 +20,48 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1")
 public class StudentController {
     private final StudentServiceImpl studentService;
+    private final ResultServiceImpl resultService;
 
-    public StudentController(StudentServiceImpl studentService) {
+    public StudentController(StudentServiceImpl studentService, ResultServiceImpl resultService) {
         this.studentService = studentService;
+        this.resultService = resultService;
     }
 
     @PostMapping("/student/add")
     public ResponseEntity<StudentDTO> addStudent(@RequestBody @Valid AddStudentReq req) throws CourseException, UserException {
-        return new  ResponseEntity<>(studentService.addStudent(req), HttpStatus.CREATED);
+        return new ResponseEntity<>(studentService.addStudent(req), HttpStatus.CREATED);
     }
+
     @GetMapping("/students")
     public ResponseEntity<Page<StudentDTO>> getTeachers(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "5") int size) {
         return ResponseEntity.ok(studentService.getStudents(page, size));
     }
+
     @GetMapping("/student")
     public ResponseEntity<StudentDTO> getStudent(@RequestParam long id) throws StudentException, UserException {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
+
     @GetMapping("/student-user")
     public ResponseEntity<StudentDTO> getStudentByUserId(@RequestParam long id) throws StudentException, UserException {
         return ResponseEntity.ok(studentService.getStudentByUserId(id));
     }
+
     @PutMapping("/student/update")
     public ResponseEntity<StudentDTO> updateStudent(@RequestBody @Valid UpdateStudentReq req) throws StudentException, CourseException, UserException {
         return ResponseEntity.ok(studentService.updateStudent(req));
     }
+
     @DeleteMapping("/student")
     public ResponseEntity<String> deleteStudent(@RequestParam Long id) throws UserException {
         return ResponseEntity.ok(studentService.deleteStudent(id));
+    }
+
+    @GetMapping("/student-results")
+    public ResponseEntity<Page<ResultDTO>> getResults(@RequestParam Long id,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "5") int size) throws StudentException {
+        return ResponseEntity.ok(resultService.getResultByStudentId(id, page, size));
     }
 }

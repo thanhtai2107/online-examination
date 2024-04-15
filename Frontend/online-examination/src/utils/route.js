@@ -10,6 +10,8 @@ import Login from "../pages/Login";
 import { PrivateRoute } from "./PrivateRoute";
 import ListExam from "../pages/ListExam";
 import StudentExams from "../pages/Student_Exams";
+import StudentResult from "../pages/StudentResult";
+import ExamResult from "../pages/ExamResults";
 
 export const route = [
   { path: "/", component: Login, layout: null, private: null },
@@ -32,8 +34,20 @@ export const route = [
     private: PrivateRoute,
   },
   {
+    path: "/exam/results/:id",
+    component: ExamResult,
+    layout: AdminLayout,
+    private: PrivateRoute,
+  },
+  {
     path: "/student/exams",
     component: StudentExams,
+    layout: StudentLayout,
+    private: PrivateRoute,
+  },
+  {
+    path: "/student/results",
+    component: StudentResult,
     layout: StudentLayout,
     private: PrivateRoute,
   },

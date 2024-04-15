@@ -14,6 +14,8 @@ public class ResultDTOMapper implements Function<ResultEntity, ResultDTO> {
                 resultEntity.getScore(),
                 resultEntity.getDateCreated(),
                 resultEntity.getStudentEntity().getId(),
-                resultEntity.getExamEntity().getId());
+                resultEntity.getStudentEntity().getFullname(),
+                resultEntity.getExamEntity().getId(),
+                resultEntity.getExamEntity().getTitle());
     }
 }

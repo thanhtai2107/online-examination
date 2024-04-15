@@ -1,4 +1,16 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/auth/Action";
+
 function Navbar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const auth = useSelector((store) => store.auth);
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.href = "/";
+  };
   return (
     <>
       <div className="navbar-wrapper">
@@ -71,7 +83,7 @@ function Navbar() {
             <i className="fa-solid fa-circle-user"></i>
             <div className="name-role">
               <div className="name">
-                <h5>Day la ten</h5>
+                <h5>{auth.currentUser?.fullname}</h5>
                 <i className="fa-solid fa-caret-down"></i>
               </div>
               <p>Role</p>
@@ -86,7 +98,7 @@ function Navbar() {
                   <i className="fa-solid fa-lock"></i>{" "}
                   <li>Thay đổi mật khẩu</li>
                 </div>
-                <div className="item">
+                <div className="item" onClick={handleLogout}>
                   <i className="fa-solid fa-right-from-bracket"></i>{" "}
                   <li>Đăng xuất</li>
                 </div>

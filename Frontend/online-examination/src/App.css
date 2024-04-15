@@ -321,6 +321,7 @@ body {
   position: absolute;
   top: 35px;
   left: 5px;
+  z-index: 10;
 }
 .user-dropdown {
   display: none;
@@ -980,3 +981,34 @@ body {
   padding: 20px 70px;
 }
 /* Update course end*/
+
+/* Result begin*/
+.exam-result {
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.exam-result .form-add {
+  width: 27%;
+  min-height: 60%;
+  padding: 0px 30px;
+}
+.exam-result .form-add h2 {
+  margin-bottom: 20px;
+}
+.exam-result .form-add .content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.exam-result .form-add .content p {
+  font-size: 15px;
+}
+/* Result end*/

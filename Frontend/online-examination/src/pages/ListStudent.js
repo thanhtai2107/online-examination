@@ -179,10 +179,18 @@ function ListStudent() {
               key="action"
               render={(_, record) => (
                 <Space size="middle">
-                  <a onClick={() => handlePopupupdateStudentForm(record.id)}>
+                  <p
+                    style={{ color: "blue", cursor: "pointer" }}
+                    onClick={() => handlePopupupdateStudentForm(record.id)}
+                  >
                     Cập nhật
-                  </a>
-                  <a onClick={() => handleDeleteStudent(record.id)}>Xóa</a>
+                  </p>
+                  <p
+                    style={{ color: "blue", cursor: "pointer" }}
+                    onClick={() => handleDeleteStudent(record.id)}
+                  >
+                    Xóa
+                  </p>
                 </Space>
               )}
             />
@@ -359,16 +367,12 @@ function ListStudent() {
               <div className="input-field">
                 <label htmlFor="">Trạng thái:</label>
                 <br />
-                <select
-                  defaultValue="--Trạng thái--"
-                  onChange={(e) => handleStatusChange(e)}
-                  name="status"
-                >
+                <select onChange={(e) => handleStatusChange(e)} name="status">
                   <option disabled>--Trạng thái--</option>
-                  <option selected={student.student?.courseId === 1}>
+                  <option selected={student.student?.status === 1}>
                     Hoạt động
                   </option>
-                  <option selected={student.student?.courseId === 0}>
+                  <option selected={student.student?.status === 0}>
                     Ngưng hoạt động
                   </option>
                 </select>
@@ -387,19 +391,15 @@ function ListStudent() {
                   <option disabled>--Khóa học--</option>
                   {course.allCourse &&
                     course.allCourse.map((item) => {
-                      if (student.student?.courseId === item.id) {
-                        return (
-                          <option selected key={item.id} id={item.id}>
-                            {item.title}
-                          </option>
-                        );
-                      } else {
-                        return (
-                          <option key={item.id} id={item.id}>
-                            {item.title}
-                          </option>
-                        );
-                      }
+                      return (
+                        <option
+                          selected={student.student?.courseId === item.id}
+                          key={item.id}
+                          id={item.id}
+                        >
+                          {item.title}
+                        </option>
+                      );
                     })}
                 </select>
                 {addStudentErrors.courseId && (

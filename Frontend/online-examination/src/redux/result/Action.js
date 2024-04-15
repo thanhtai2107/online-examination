@@ -2,7 +2,11 @@ import axios from "axios";
 import authHeader from "../../config/auth-header";
 import { API_URL } from "../../config/api";
 import { toast } from "react-toastify";
-import { SAVE_RESULT } from "./ActionType";
+import {
+  GET_RESULTS_BY_EXAM,
+  GET_STUDENT_RESULTS,
+  SAVE_RESULT,
+} from "./ActionType";
 
 export const saveResult = (req) => async (dispatch) => {
   try {
@@ -12,8 +16,33 @@ export const saveResult = (req) => async (dispatch) => {
       authHeader()
     );
     dispatch({ type: SAVE_RESULT, payload: resp.data });
-    // toast.success("Thêm câu hỏi thành công");
   } catch (error) {
-    // toast.error("Thêm câu hỏi thất bại");
+    toast.error("Không thể lưu kết quả");
+  }
+};
+
+export const getStudentResults = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.get(
+      `${API_URL}/api/v1/student-results?id=${req.id}&page=${req.page}&size=${req.size}`,
+      authHeader()
+    );
+    dispatch({ type: GET_STUDENT_RESULTS, payload: resp.data });
+    // console.log(resp.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getExamResults = (req) => async (dispatch) => {
+  try {
+    const resp = await axios.get(
+      `${API_URL}/api/v1/exam/results?id=${req.id}&page=${req.page}&size=${req.size}`,
+      authHeader()
+    );
+    dispatch({ type: GET_RESULTS_BY_EXAM, payload: resp.data });
+    console.log(resp.data);
+  } catch (error) {
+    console.error(error);
   }
 };
